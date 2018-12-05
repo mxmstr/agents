@@ -7,21 +7,42 @@ const ACTIONS = {
 	
 	'Default' : {
 		'priority' : -1,
-		'sprite' : 'res://player/detective stand right.png',
+		'animation' : 'Stand',
 		'auto_target' : false,
 		'action' : 'default_action',
 		},
 	
 	'MoveTo' : {
 		'priority' : 0,
-		'sprite' : 'res://player/detective stand right.png',
+		'animation' : 'Walk',
 		'auto_target' : false,
 		'action' : 'move_to',
 		},
 		
 	'Shoot' : {
 		'priority' : 1,
-		'sprite' : 'res://player/detective shoot right.png',
+		'animation' : 'Shoot',
+		'auto_target' : true,
+		'action' : 'shoot',
+		},
+		
+	'Sleep' : {
+		'priority' : 1,
+		'animation' : 'Shoot',
+		'auto_target' : true,
+		'action' : 'shoot',
+		},
+		
+	'Search' : {
+		'priority' : 1,
+		'animation' : 'Shoot',
+		'auto_target' : true,
+		'action' : 'shoot',
+		},
+		
+	'Intel' : {
+		'priority' : 1,
+		'animation' : 'Shoot',
 		'auto_target' : true,
 		'action' : 'shoot',
 		},
@@ -32,12 +53,16 @@ enum MoveDirection { UP, DOWN, LEFT, RIGHT, NONE }
 
 slave var slave_position = Vector2()
 slave var slave_direction = Vector2(0, 0)
-slave var slave_sprite = ''
-
 
 var health_points = MAX_HP
 var action = ACTIONS['Default']
 var target = null
+
+onready var CLICK_ZONE = $'/root/Game/ClickZone/ClickZone'
+onready var BUTTON_SHOOT = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/Shoot'
+onready var BUTTON_SLEEP = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/Sleep'
+onready var BUTTON_SEARCH = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/Search'
+onready var BUTTON_INTEL = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/Intel'
 
 
 func init(nickname, start_position, is_slave):
@@ -45,16 +70,19 @@ func init(nickname, start_position, is_slave):
 	$GUI/Nickname.text = nickname
 	global_position = start_position
 	
-	if not is_network_master():
+	if is_slave:
 		add_to_group('Slave')
+		slave_position = start_position
 
 
 func _ready():
 	
 	if is_network_master():
-		$'/root/Game/UI/Chat/Shoot'.connect(
-			'button_down', self, 'on_action_button', ['Shoot']
-			)
+		CLICK_ZONE.connect('button_down', self, 'on_action_button', ['MoveTo', 'get_global_mouse_position'])
+		BUTTON_SHOOT.connect('button_down', self, 'on_action_button', ['Shoot'])
+		BUTTON_SLEEP.connect('button_down', self, 'on_action_button', ['Sleep'])
+		BUTTON_SEARCH.connect('button_down', self, 'on_action_button', ['Search'])
+		BUTTON_INTEL.connect('button_down', self, 'on_action_button', ['Intel'])
 
 
 func start_action(action_name, new_target):
@@ -62,7 +90,7 @@ func start_action(action_name, new_target):
 	var new_action = ACTIONS[action_name]
 	
 	if -1 in [new_action['priority'], action['priority']] \
-		or new_action['priority'] > action['priority']:
+		or new_action['priority'] >= action['priority']:
 			
 		action = new_action
 		
@@ -71,8 +99,7 @@ func start_action(action_name, new_target):
 		else:
 			target = new_target
 		
-		$Sprite.texture = load(new_action['sprite'])
-		#rset('slave_sprite', direction)
+		set_animation(new_action['animation'])
 
 
 func exec_action():
@@ -84,12 +111,8 @@ func exec_action():
 func _physics_process(delta):
 	
 	if is_network_master():
-		
-		if Input.is_action_just_pressed("ui_click_left"):
-			start_action('MoveTo', get_global_mouse_position())
-		
+		rset_unreliable('slave_position', position)
 		exec_action()
-		
 	else:
 		slave_move_to()
 	
@@ -106,7 +129,6 @@ func move_to():
 	
 	var direction = target - global_position
 	
-	rset_unreliable('slave_position', position)
 	rset('slave_direction', direction)
 	
 	move_and_collide(direction.normalized() * MOVE_SPEED)
@@ -147,6 +169,23 @@ func get_closest_target():
 	return closest
 
 
-func on_action_button(action_name):
+func on_action_button(action_name, target_source=null):
 	
-	start_action(action_name, null)
+	if target_source == null:
+		start_action(action_name, null)
+	else:
+		start_action(
+			action_name, 
+			funcref(self, target_source).call_func()
+			)
+
+
+func set_animation(anim_name):
+	
+	$Sprite.animation = anim_name
+	rpc('remote_set_animation', anim_name)
+
+
+remote func remote_set_animation(anim_name):
+	
+	$Sprite.animation = anim_name

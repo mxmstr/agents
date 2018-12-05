@@ -1,6 +1,7 @@
 extends Node
 
-const MAX_USERS = 1
+onready var Feed = $'/root/Game/UI/Chat/ChatContainer/FeedContainer/Feed'
+onready var Message_Input = $'/root/Game/UI/Chat/ChatContainer/MessageContainer/Message_Input'
 
 
 func _ready():
@@ -11,31 +12,31 @@ func _ready():
 
 func _player_connected(id):
 	
-	$Display.text += '\n ' + str(id) + ' has joined'
+	Feed.text += '\n ' + str(id) + ' has joined'
 
 
 func _player_disconnected(id):
 	
-	$Display.text += '\n ' + str(id) + ' has left'
+	Feed.text += '\n ' + str(id) + ' has left'
 
 
 func _connected_ok():
 	
-	$Display.text += '\n You have joined the room'
+	Feed.text += '\n You have joined the room'
 	rpc('announce_user', Network.local_player_id)
 
 
 func _on_Message_Input_text_entered(new_text):
 	
-	$Message_Input.text = ''
+	Message_Input.text = ''
 	rpc('display_message', Network.local_player_id, new_text)
 
 
 sync func display_message(player, new_text):
 	
-	$Display.text += '\n ' + str(player) + ' : ' + new_text
+	Feed.text += '\n ' + str(player) + ' : ' + new_text
 
 
 remote func announce_user(player):
 	
-	$Display.text += '\n ' + str(player) + ' has joined the room' 
+	Feed.text += '\n ' + str(player) + ' has joined the room' 

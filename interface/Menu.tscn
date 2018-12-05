@@ -8,7 +8,7 @@
 [ext_resource path="res://interface/buttons/create.png" type="Texture" id=6]
 [ext_resource path="res://interface/buttons/create-pressed.png" type="Texture" id=7]
 
-[node name="Menu" type="Control" index="0"]
+[node name="Menu" type="Control"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -21,6 +21,7 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 script = ExtResource( 1 )
+_sections_unfolded = [ "Hint" ]
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." index="0"]
 
@@ -28,10 +29,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -315.0
-margin_top = -120.0
-margin_right = 315.0
-margin_bottom = 120.0
+margin_left = -300.0
+margin_top = -155.0
+margin_right = 300.0
+margin_bottom = 155.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -40,7 +41,7 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 custom_constants/separation = 20
 alignment = 0
-_sections_unfolded = [ "custom_constants" ]
+_sections_unfolded = [ "Rect", "custom_constants" ]
 
 [node name="Title2" type="Label" parent="VBoxContainer" index="0"]
 
@@ -48,7 +49,7 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 630.0
+margin_right = 600.0
 margin_bottom = 52.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -71,7 +72,7 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 72.0
-margin_right = 630.0
+margin_right = 600.0
 margin_bottom = 124.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -111,7 +112,7 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 275.0
-margin_right = 630.0
+margin_right = 600.0
 margin_bottom = 52.0
 rect_min_size = Vector2( 0, 24 )
 rect_pivot_offset = Vector2( 0, 0 )
@@ -137,7 +138,7 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 144.0
-margin_right = 630.0
+margin_right = 600.0
 margin_bottom = 194.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -154,7 +155,7 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 305.0
+margin_right = 290.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 0, 24 )
 rect_pivot_offset = Vector2( 0, 0 )
@@ -180,8 +181,8 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 325.0
-margin_right = 630.0
+margin_left = 310.0
+margin_right = 600.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 0, 24 )
 rect_pivot_offset = Vector2( 0, 0 )
@@ -208,7 +209,7 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 214.0
-margin_right = 630.0
+margin_right = 600.0
 margin_bottom = 310.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -226,7 +227,7 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 315.0
+margin_right = 300.0
 margin_bottom = 96.0
 rect_min_size = Vector2( 192, 96 )
 rect_pivot_offset = Vector2( 0, 0 )
@@ -252,8 +253,8 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 315.0
-margin_right = 630.0
+margin_left = 300.0
+margin_right = 600.0
 margin_bottom = 96.0
 rect_min_size = Vector2( 192, 96 )
 rect_pivot_offset = Vector2( 0, 0 )

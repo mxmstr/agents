@@ -2,46 +2,146 @@
 
 [ext_resource path="res://Chat.gd" type="Script" id=1]
 
-[node name="Chat" type="Node" index="0"]
+[node name="Chat" type="Node"]
 
 script = ExtResource( 1 )
 
-[node name="Display" type="RichTextLabel" parent="." index="0"]
-
-anchor_left = 1.0
-anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 0.0
-margin_left = -1024.0
-margin_bottom = 450.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = true
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-bbcode_enabled = false
-bbcode_text = ""
-visible_characters = -1
-percent_visible = 1.0
-meta_underlined = true
-tab_size = 4
-text = ""
-scroll_active = true
-scroll_following = false
-selection_enabled = false
-override_selected_font_color = false
-_sections_unfolded = [ "Anchor", "Margin", "Rect", "Visibility" ]
-
-[node name="Shoot" type="Button" parent="." index="1"]
+[node name="ChatContainer" type="VBoxContainer" parent="." index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 380.0
-margin_right = 350.0
-margin_bottom = 450.0
+margin_right = 600.0
+margin_bottom = 600.0
+grow_horizontal = 0
+grow_vertical = 0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+custom_constants/separation = 10
+alignment = 2
+_sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "custom_constants" ]
+
+[node name="FeedContainer" type="VBoxContainer" parent="ChatContainer" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 306.0
+margin_right = 600.0
+margin_bottom = 506.0
+grow_horizontal = 0
+grow_vertical = 0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 1
+_sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Size Flags" ]
+
+[node name="Feed" type="Label" parent="ChatContainer/FeedContainer" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 600.0
+margin_bottom = 200.0
+rect_min_size = Vector2( 0, 200 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+align = 1
+valign = 2
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Anchor", "Margin", "Rect", "Size Flags" ]
+
+[node name="MessageContainer" type="HBoxContainer" parent="ChatContainer" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 516.0
+margin_right = 600.0
+margin_bottom = 540.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+custom_constants/separation = 100
+alignment = 1
+_sections_unfolded = [ "Rect", "Size Flags", "custom_constants" ]
+
+[node name="Message_Input" type="LineEdit" parent="ChatContainer/MessageContainer" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 600.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 600, 0 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 1
+size_flags_horizontal = 1
+size_flags_vertical = 1
+align = 1
+focus_mode = 2
+context_menu_enabled = true
+placeholder_text = "Enter your message..."
+placeholder_alpha = 0.6
+caret_blink = false
+caret_blink_speed = 0.65
+caret_position = 0
+_sections_unfolded = [ "Anchor", "Margin", "Placeholder", "Rect", "Size Flags" ]
+
+[node name="ActionsContainer" type="HBoxContainer" parent="ChatContainer" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 550.0
+margin_right = 600.0
+margin_bottom = 600.0
+rect_min_size = Vector2( 0, 50 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+custom_constants/separation = 100
+alignment = 1
+_sections_unfolded = [ "Rect", "Size Flags", "custom_constants" ]
+
+[node name="Shoot" type="Button" parent="ChatContainer/ActionsContainer" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 54.0
+margin_right = 102.0
+margin_bottom = 50.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -57,16 +157,15 @@ text = "Shoot"
 flat = false
 align = 1
 
-[node name="Sleep" type="Button" parent="." index="2"]
+[node name="Sleep" type="Button" parent="ChatContainer/ActionsContainer" index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 350.0
-margin_top = 380.0
-margin_right = 670.0
-margin_bottom = 450.0
+margin_left = 202.0
+margin_right = 249.0
+margin_bottom = 50.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -81,17 +180,17 @@ group = null
 text = "Sleep"
 flat = false
 align = 1
+_sections_unfolded = [ "Grow Direction", "Rect" ]
 
-[node name="Search" type="Button" parent="." index="3"]
+[node name="Search" type="Button" parent="ChatContainer/ActionsContainer" index="2"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 670.0
-margin_top = 380.0
-margin_right = 1020.0
-margin_bottom = 450.0
+margin_left = 349.0
+margin_right = 403.0
+margin_bottom = 50.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -107,29 +206,30 @@ text = "Search"
 flat = false
 align = 1
 
-[node name="Message_Input" type="LineEdit" parent="." index="4"]
+[node name="Intel" type="Button" parent="ChatContainer/ActionsContainer" index="3"]
 
-anchor_left = 1.0
+anchor_left = 0.0
 anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -1024.0
-margin_top = 450.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 503.0
+margin_right = 545.0
+margin_bottom = 50.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
 mouse_filter = 0
-mouse_default_cursor_shape = 1
+mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-focus_mode = 2
-context_menu_enabled = true
-placeholder_alpha = 0.6
-caret_blink = false
-caret_blink_speed = 0.65
-caret_position = 0
-_sections_unfolded = [ "Anchor", "Margin", "Rect" ]
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+text = "Intel"
+flat = false
+align = 1
 
-[connection signal="text_entered" from="Message_Input" to="." method="_on_Message_Input_text_entered"]
+[connection signal="text_entered" from="ChatContainer/MessageContainer/Message_Input" to="." method="_on_Message_Input_text_entered"]
 
 
