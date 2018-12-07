@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://player/Player.gd" type="Script" id=1]
 [ext_resource path="res://images/detective shoot right.png" type="Texture" id=2]
@@ -23,20 +23,21 @@
 [ext_resource path="res://images/detective run right 18.png" type="Texture" id=21]
 [ext_resource path="res://images/detective run right 19.png" type="Texture" id=22]
 [ext_resource path="res://images/detective stand right.png" type="Texture" id=23]
-[ext_resource path="res://interface/GUI.tscn" type="PackedScene" id=24]
+[ext_resource path="res://images/detective dead.png" type="Texture" id=24]
+[ext_resource path="res://interface/GUI.tscn" type="PackedScene" id=25]
 
 [sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
-extents = Vector2( 27.5014, 70.4704 )
+extents = Vector2( 30.5014, 40 )
 
 [sub_resource type="SpriteFrames" id=2]
 
 animations = [ {
-"frames": [ ExtResource( 2 ) ],
-"loop": true,
+"frames": [ ExtResource( 2 ), ExtResource( 2 ), ExtResource( 2 ), ExtResource( 2 ) ],
+"loop": false,
 "name": "Shoot",
-"speed": 5.0
+"speed": 1.0
 }, {
 "frames": [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 21 ), ExtResource( 22 ) ],
 "loop": true,
@@ -44,8 +45,13 @@ animations = [ {
 "speed": 15.0
 }, {
 "frames": [ ExtResource( 23 ) ],
-"loop": true,
+"loop": false,
 "name": "Stand",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 24 ) ],
+"loop": false,
+"name": "Dead",
 "speed": 5.0
 } ]
 
@@ -62,20 +68,23 @@ _sections_unfolded = [ "Collision", "Pickable", "Transform", "collision" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." index="0"]
 
-position = Vector2( -4.76837e-007, 36.7352 )
-scale = Vector2( 0.655708, 0.5 )
+position = Vector2( 0, 16 )
+scale = Vector2( 0.357213, 0.5 )
 shape = SubResource( 1 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Sprite" type="AnimatedSprite" parent="." index="1"]
 
-scale = Vector2( 0.5, 0.5 )
+scale = Vector2( 0.25, 0.25 )
 frames = SubResource( 2 )
 animation = "Stand"
 playing = true
 _sections_unfolded = [ "Animation", "Offset", "Transform" ]
 
-[node name="GUI" parent="." index="2" instance=ExtResource( 24 )]
+[node name="GUI" parent="." index="2" instance=ExtResource( 25 )]
+
+margin_top = -154.0
+margin_bottom = 88.0
 
 [node name="RespawnTimer" type="Timer" parent="." index="3"]
 
@@ -83,6 +92,8 @@ process_mode = 1
 wait_time = 3.0
 one_shot = true
 autostart = false
+
+[connection signal="animation_finished" from="Sprite" to="." method="on_animation_finished"]
 
 [connection signal="timeout" from="RespawnTimer" to="." method="_on_RespawnTimer_timeout"]
 

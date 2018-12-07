@@ -1,68 +1,28 @@
 extends KinematicBody2D
 
-const MOVE_SPEED = 10.0
+var ACTION = preload("Player.Action.gd").new()
+
+const MOVE_SPEED = 5.0
 const MOVE_GOAL_RADIUS = 15.0
+const INTERACT_RADIUS = 25.0
 const MAX_HP = 100
-const ACTIONS = {
-	
-	'Default' : {
-		'priority' : -1,
-		'animation' : 'Stand',
-		'auto_target' : false,
-		'action' : 'default_action',
-		},
-	
-	'MoveTo' : {
-		'priority' : 0,
-		'animation' : 'Walk',
-		'auto_target' : false,
-		'action' : 'move_to',
-		},
-		
-	'Shoot' : {
-		'priority' : 1,
-		'animation' : 'Shoot',
-		'auto_target' : true,
-		'action' : 'shoot',
-		},
-		
-	'Sleep' : {
-		'priority' : 1,
-		'animation' : 'Shoot',
-		'auto_target' : true,
-		'action' : 'shoot',
-		},
-		
-	'Search' : {
-		'priority' : 1,
-		'animation' : 'Shoot',
-		'auto_target' : true,
-		'action' : 'shoot',
-		},
-		
-	'Intel' : {
-		'priority' : 1,
-		'animation' : 'Shoot',
-		'auto_target' : true,
-		'action' : 'shoot',
-		},
-	
-	}
 
 enum MoveDirection { UP, DOWN, LEFT, RIGHT, NONE }
 
 slave var slave_position = Vector2()
 slave var slave_direction = Vector2(0, 0)
+slave var slave_flip_h = false
+slave var slave_animation = 'Stand'
 
 var health_points = MAX_HP
-var action = ACTIONS['Default']
+var action = ACTION.ACTIONS['Default']
 var target = null
 
-onready var CLICK_ZONE = $'/root/Game/ClickZone/ClickZone'
-onready var BUTTON_SHOOT = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/Shoot'
-onready var BUTTON_SLEEP = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/Sleep'
-onready var BUTTON_SEARCH = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/Search'
-onready var BUTTON_INTEL = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/Intel'
+onready var ClickZone = $'/root/Game/ClickZone/ClickZone'
+onready var ButtonShoot = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/Shoot'
+onready var ButtonSleep = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/Sleep'
+onready var ButtonSearch = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/Search'
+onready var ButtonIntel = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/Intel'
 
 
 func init(nickname, start_position, is_slave):
@@ -75,81 +35,6 @@ func init(nickname, start_position, is_slave):
 		slave_position = start_position
 
 
-func _ready():
-	
-	if is_network_master():
-		CLICK_ZONE.connect('button_down', self, 'on_action_button', ['MoveTo', 'get_global_mouse_position'])
-		BUTTON_SHOOT.connect('button_down', self, 'on_action_button', ['Shoot'])
-		BUTTON_SLEEP.connect('button_down', self, 'on_action_button', ['Sleep'])
-		BUTTON_SEARCH.connect('button_down', self, 'on_action_button', ['Search'])
-		BUTTON_INTEL.connect('button_down', self, 'on_action_button', ['Intel'])
-
-
-func start_action(action_name, new_target):
-	
-	var new_action = ACTIONS[action_name]
-	
-	if -1 in [new_action['priority'], action['priority']] \
-		or new_action['priority'] >= action['priority']:
-			
-		action = new_action
-		
-		if new_action['auto_target']:
-			target = get_closest_target()
-		else:
-			target = new_target
-		
-		set_animation(new_action['animation'])
-
-
-func exec_action():
-	
-	if funcref(self, action['action']).call_func():
-		start_action('Default', null)
-
-
-func _physics_process(delta):
-	
-	if is_network_master():
-		rset_unreliable('slave_position', position)
-		exec_action()
-	else:
-		slave_move_to()
-	
-	if get_tree().is_network_server():
-		Network.update_position(int(name), position)
-
-
-func default_action():
-	
-	return false
-
-
-func move_to():
-	
-	var direction = target - global_position
-	
-	rset('slave_direction', direction)
-	
-	move_and_collide(direction.normalized() * MOVE_SPEED)
-	$Sprite.flip_h = direction.x < 0
-	
-	return direction.length() < MOVE_GOAL_RADIUS
-
-
-func shoot():
-	
-	return false
-
-
-func slave_move_to():
-	
-	move_and_collide(slave_direction.normalized() * MOVE_SPEED)
-	$Sprite.flip_h = slave_direction.x < 0
-	
-	position = slave_position
-
-
 func get_closest_target():
 	
 	#if $Sprite.flip_h:
@@ -160,32 +45,99 @@ func get_closest_target():
 		if player == self:
 			continue
 		
-		if closest == null:
-			closest = player
+		var player_dist = player.global_position.distance_to(global_position)
 		
-		if player.global_position.distance_to(closest.global_position):
-			closest = player
+		if player_dist < INTERACT_RADIUS:
+		
+			if closest == null:
+				closest = player
+				continue
+			
+			var closest_dist = closest.global_position.distance_to(global_position)
+				
+			if player_dist < closest_dist:
+				closest = player
 			
 	return closest
-
-
-func on_action_button(action_name, target_source=null):
-	
-	if target_source == null:
-		start_action(action_name, null)
-	else:
-		start_action(
-			action_name, 
-			funcref(self, target_source).call_func()
-			)
 
 
 func set_animation(anim_name):
 	
 	$Sprite.animation = anim_name
-	rpc('remote_set_animation', anim_name)
+	rset('slave_animation', anim_name)
 
 
-remote func remote_set_animation(anim_name):
+func slave_sync():
 	
-	$Sprite.animation = anim_name
+	move_and_collide(slave_direction.normalized() * MOVE_SPEED)
+	position = slave_position
+	$Sprite.flip_h = slave_flip_h
+	
+	if $Sprite.animation != slave_animation:
+		$Sprite.animation = slave_animation
+
+
+func on_action_button(action_name):
+	
+	start_action(action_name, null)
+
+
+func on_animation_finished():
+	
+	if is_network_master() and action['reset_anim_finish']:
+		start_action('Default', null)
+
+
+func start_action(action_name, new_target):
+	
+	var new_action = ACTION.ACTIONS[action_name]
+	
+	if -1 in [new_action['priority'], action['priority']] \
+		or new_action['priority'] > action['priority'] \
+		or (new_action['can_interrupt'] and new_action['priority'] == action['priority']):
+		
+		if new_action.has('target_source'):
+			new_target = funcref(self, new_action['target_source']).call_func()
+			if new_target == null:
+				return
+				
+		target = new_target
+		
+		set_animation(new_action['animation'])
+		
+		action = new_action
+
+
+remote func remote_start_action(action_name, new_target):
+	
+	if is_network_master():
+		start_action(action_name, new_target)
+
+
+func exec_action():
+	
+	if funcref(ACTION, action['action']).call_func(self):
+		start_action('Default', null)
+
+
+func _ready():
+	
+	if is_network_master():
+		ClickZone.connect('button_down', self, 'on_action_button', ['MoveTo'])
+		ButtonShoot.connect('button_down', self, 'on_action_button', ['RequestShoot'])
+		ButtonSleep.connect('button_down', self, 'on_action_button', ['Sleep'])
+		ButtonSearch.connect('button_down', self, 'on_action_button', ['Search'])
+		ButtonIntel.connect('button_down', self, 'on_action_button', ['Intel'])
+
+
+func _physics_process(delta):
+	
+	if is_network_master():
+		rset_unreliable('slave_position', position)
+		rset_unreliable('slave_flip_h', $Sprite.flip_h)
+		exec_action()
+	else:
+		slave_sync()
+	
+	if get_tree().is_network_server():
+		Network.update_position(int(name), position)
