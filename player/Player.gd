@@ -4,6 +4,7 @@ var ACTION = preload("Player.Action.gd").new()
 
 const MOVE_SPEED = 5.0
 const MOVE_GOAL_RADIUS = 15.0
+const MAX_INTERACT_RADIUS = 50.0
 const INTERACT_RADIUS = 25.0
 const MAX_HP = 100
 
@@ -14,6 +15,7 @@ slave var slave_direction = Vector2(0, 0)
 slave var slave_flip_h = false
 slave var slave_animation = 'Stand'
 
+var nickname = ''
 var health_points = MAX_HP
 var action = ACTION.ACTIONS['Default']
 var target = null
@@ -25,9 +27,10 @@ onready var ButtonSearch = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/S
 onready var ButtonIntel = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/Intel'
 
 
-func init(nickname, start_position, is_slave):
+func init(_nickname, start_position, is_slave):
 	
-	$GUI/Nickname.text = nickname
+	nickname = _nickname
+	$GUI/Nickname.text = _nickname
 	global_position = start_position
 	
 	if is_slave:
@@ -47,7 +50,7 @@ func get_closest_target():
 		
 		var player_dist = player.global_position.distance_to(global_position)
 		
-		if player_dist < INTERACT_RADIUS:
+		if player_dist < MAX_INTERACT_RADIUS:
 		
 			if closest == null:
 				closest = player
