@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Chat.gd" type="Script" id=1]
 
-[node name="Chat" type="Node"]
+[node name="Chat" type="Node" index="0"]
 
 script = ExtResource( 1 )
 
@@ -24,7 +24,7 @@ size_flags_horizontal = 0
 size_flags_vertical = 0
 custom_constants/separation = 10
 alignment = 2
-_sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "custom_constants" ]
+_sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect", "Size Flags", "custom_constants" ]
 
 [node name="FeedContainer" type="VBoxContainer" parent="ChatContainer" index="0"]
 
@@ -44,7 +44,7 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 alignment = 1
-_sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Size Flags" ]
+_sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Size Flags", "custom_constants" ]
 
 [node name="Feed" type="Label" parent="ChatContainer/FeedContainer" index="0"]
 
@@ -83,7 +83,6 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-custom_constants/separation = 100
 alignment = 1
 _sections_unfolded = [ "Rect", "Size Flags", "custom_constants" ]
 
@@ -129,18 +128,69 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-custom_constants/separation = 100
+custom_constants/separation = 69
 alignment = 1
 _sections_unfolded = [ "Rect", "Size Flags", "custom_constants" ]
 
-[node name="Shoot" type="Button" parent="ChatContainer/ActionsContainer" index="0"]
+[node name="Chat" type="Button" parent="ChatContainer/ActionsContainer" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 54.0
-margin_right = 102.0
+margin_left = 46.0
+margin_right = 86.0
+margin_bottom = 50.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+text = "Chat"
+flat = false
+align = 1
+_sections_unfolded = [ "Visibility" ]
+
+[node name="EndChat" type="Button" parent="ChatContainer/ActionsContainer" index="1"]
+
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 109.0
+margin_right = 176.0
+margin_bottom = 50.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+text = "End Chat"
+flat = false
+align = 1
+_sections_unfolded = [ "Visibility" ]
+
+[node name="Shoot" type="Button" parent="ChatContainer/ActionsContainer" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 155.0
+margin_right = 203.0
 margin_bottom = 50.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -157,14 +207,14 @@ text = "Shoot"
 flat = false
 align = 1
 
-[node name="Sleep" type="Button" parent="ChatContainer/ActionsContainer" index="1"]
+[node name="Sleep" type="Button" parent="ChatContainer/ActionsContainer" index="3"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 202.0
-margin_right = 249.0
+margin_left = 272.0
+margin_right = 319.0
 margin_bottom = 50.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -182,14 +232,14 @@ flat = false
 align = 1
 _sections_unfolded = [ "Grow Direction", "Rect" ]
 
-[node name="Search" type="Button" parent="ChatContainer/ActionsContainer" index="2"]
+[node name="Search" type="Button" parent="ChatContainer/ActionsContainer" index="4"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 349.0
-margin_right = 403.0
+margin_left = 388.0
+margin_right = 442.0
 margin_bottom = 50.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -206,14 +256,14 @@ text = "Search"
 flat = false
 align = 1
 
-[node name="Intel" type="Button" parent="ChatContainer/ActionsContainer" index="3"]
+[node name="Intel" type="Button" parent="ChatContainer/ActionsContainer" index="5"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 503.0
-margin_right = 545.0
+margin_left = 511.0
+margin_right = 553.0
 margin_bottom = 50.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false

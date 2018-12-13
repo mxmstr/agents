@@ -1,14 +1,7 @@
 extends KinematicBody2D
 
-var ACTION = preload("Player.Action.gd").new()
-
 const MOVE_SPEED = 5.0
-const MOVE_GOAL_RADIUS = 15.0
-const MAX_INTERACT_RADIUS = 50.0
-const INTERACT_RADIUS = 25.0
 const MAX_HP = 100
-
-enum MoveDirection { UP, DOWN, LEFT, RIGHT, NONE }
 
 slave var slave_position = Vector2()
 slave var slave_direction = Vector2(0, 0)
@@ -17,10 +10,11 @@ slave var slave_animation = 'Stand'
 
 var nickname = ''
 var health_points = MAX_HP
-var action = ACTION.ACTIONS['Default']
-var target = null
 
+onready var MessageInput = $'/root/Game/UI/Chat/ChatContainer/MessageContainer/Message_Input'
 onready var ClickZone = $'/root/Game/ClickZone/ClickZone'
+onready var ButtonChat = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/Chat'
+onready var ButtonEndChat = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/EndChat'
 onready var ButtonShoot = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/Shoot'
 onready var ButtonSleep = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/Sleep'
 onready var ButtonSearch = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/Search'
@@ -36,32 +30,6 @@ func init(_nickname, start_position, is_slave):
 	if is_slave:
 		add_to_group('Slave')
 		slave_position = start_position
-
-
-func get_closest_target():
-	
-	#if $Sprite.flip_h:
-	var closest = null
-	
-	for player in get_tree().get_nodes_in_group('Slave'):
-		
-		if player == self:
-			continue
-		
-		var player_dist = player.global_position.distance_to(global_position)
-		
-		if player_dist < MAX_INTERACT_RADIUS:
-		
-			if closest == null:
-				closest = player
-				continue
-			
-			var closest_dist = closest.global_position.distance_to(global_position)
-				
-			if player_dist < closest_dist:
-				closest = player
-			
-	return closest
 
 
 func set_animation(anim_name):
@@ -82,51 +50,34 @@ func slave_sync():
 
 func on_action_button(action_name):
 	
-	start_action(action_name, null)
+	$Action.start_action(action_name, null)
 
 
 func on_animation_finished():
 	
-	if is_network_master() and action['reset_anim_finish']:
-		start_action('Default', null)
+	if is_network_master():
+		$Action.on_animation_finished()
 
 
-func start_action(action_name, new_target):
-	
-	var new_action = ACTION.ACTIONS[action_name]
-	
-	if -1 in [new_action['priority'], action['priority']] \
-		or new_action['priority'] > action['priority'] \
-		or (new_action['can_interrupt'] and new_action['priority'] == action['priority']):
-		
-		if new_action.has('target_source'):
-			new_target = funcref(self, new_action['target_source']).call_func()
-			if new_target == null:
-				return
-				
-		target = new_target
-		
-		set_animation(new_action['animation'])
-		
-		action = new_action
-
-
-remote func remote_start_action(action_name, new_target):
+remote func receive_message(message):
 	
 	if is_network_master():
-		start_action(action_name, new_target)
+		$'/root/Game/UI/Chat'.display_message(message)
 
 
-func exec_action():
+func send_message(message):
 	
-	if funcref(ACTION, action['action']).call_func(self):
-		start_action('Default', null)
+	if is_network_master():
+		$Action.send_message(nickname + ' : ' + message)
 
 
 func _ready():
 	
 	if is_network_master():
+		MessageInput.connect('text_entered', self, 'send_message')
 		ClickZone.connect('button_down', self, 'on_action_button', ['MoveTo'])
+		ButtonChat.connect('button_down', self, 'on_action_button', ['RequestChat'])
+		ButtonEndChat.connect('button_down', self, 'on_action_button', ['Default'])
 		ButtonShoot.connect('button_down', self, 'on_action_button', ['RequestShoot'])
 		ButtonSleep.connect('button_down', self, 'on_action_button', ['Sleep'])
 		ButtonSearch.connect('button_down', self, 'on_action_button', ['Search'])
@@ -138,7 +89,6 @@ func _physics_process(delta):
 	if is_network_master():
 		rset_unreliable('slave_position', position)
 		rset_unreliable('slave_flip_h', $Sprite.flip_h)
-		exec_action()
 	else:
 		slave_sync()
 	
