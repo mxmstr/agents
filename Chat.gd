@@ -31,6 +31,20 @@ const UI_PRESETS = {
 			'Intel',
 			],
 		},
+		
+	'Intel' : {
+		'visible' : [
+			'ChatContainer',
+			'FeedContainer',
+			'Feed',
+			'ActionsContainer',
+			'Chat',
+			'Shoot',
+			'Sleep',
+			'Search',
+			'HideIntel',
+			],
+		},
 	
 	}
 
@@ -42,17 +56,17 @@ onready var Message_Input = $'/root/Game/UI/Chat/ChatContainer/MessageContainer/
 
 func _player_connected(id):
 	
-	Feed.text += '\n ' + str(id) + ' has joined'
+	display_message(str(id) + ' has joined')
 
 
 func _player_disconnected(id):
 	
-	Feed.text += '\n ' + str(id) + ' has left'
+	display_message(str(id) + ' has left')
 
 
 func _connected_ok():
 	
-	Feed.text += '\n You have joined the room'
+	display_message('You have joined the room')
 	rpc('announce_user', Network.local_player_id)
 
 
@@ -80,11 +94,22 @@ func change_ui(new_ui):
 sync func display_message(new_text):
 	
 	Feed.text += '\n ' + new_text
+	
+	var lines = Feed.text.split('\n ')
+	
+	if len(lines) > 5:
+		Feed.text = ''
+		
+		lines.remove(0)
+		lines.remove(0)
+		
+		for line in lines:
+			Feed.text += '\n ' + line
 
 
 remote func announce_user(player):
 	
-	Feed.text += '\n ' + str(player) + ' has joined the room' 
+	display_message(str(player) + ' has joined the room')
 
 
 func _ready():

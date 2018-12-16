@@ -37,7 +37,7 @@ const ACTIONS = {
 	'WaitChat' : {
 		'priority' : 0,
 		'ui' : 'Default',
-		'animation' : 'Stand',
+		'animation' : 'ChatRequest',
 		'can_interrupt' : true,
 		'reset_anim_finish' : false,
 		'action' : 'wait_chat',
@@ -107,11 +107,10 @@ const ACTIONS = {
 		
 	'Intel' : {
 		'priority' : 2,
-		'ui' : 'Default',
-		'animation' : 'Shoot',
+		'ui' : 'Intel',
+		'animation' : 'Stand',
 		'can_interrupt' : false,
 		'reset_anim_finish' : true,
-		'target_source' : 'get_closest_target',
 		},
 	
 	}
@@ -146,7 +145,6 @@ func target_has_action(action_name):
 func target_interacting_with_me():
 	
 	var target_target_id = target.get_node('Action').slave_target_id
-	#print([target_target_id, int(get_parent().name)])
 	
 	return target_target_id == int(get_parent().name)
 
@@ -301,10 +299,6 @@ func wait_chat():
 	var direction = target.global_position - get_parent().global_position
 	get_parent().get_node('Sprite').flip_h = direction.x < 0
 	
-	#print(target.get_node('Action').slave_target_id)
-#	print(target_is_player())
-#	print(target_has_action('wait_chat'))
-#	print(target_interacting_with_me())
 	if target_is_player() and target_has_action('wait_chat') and target_interacting_with_me():
 		get_parent().receive_message('You are in chat with ' + target.nickname + '.')
 		start_action('Chat', target)
@@ -352,7 +346,6 @@ func request_get_shot():
 	$'../Sprite'.flip_h = direction.x < 0
 	
 	shooter.get_node('Action').rpc('remote_start_action', 'Shoot', null)
-	
 	start_action('GetShot', shooter)
 	
 	return false

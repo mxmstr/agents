@@ -19,6 +19,7 @@ onready var ButtonShoot = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/Sh
 onready var ButtonSleep = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/Sleep'
 onready var ButtonSearch = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/Search'
 onready var ButtonIntel = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/Intel'
+onready var ButtonHideIntel = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/HideIntel'
 
 
 func init(_nickname, start_position, is_slave):
@@ -82,6 +83,7 @@ func _ready():
 		ButtonSleep.connect('button_down', self, 'on_action_button', ['Sleep'])
 		ButtonSearch.connect('button_down', self, 'on_action_button', ['Search'])
 		ButtonIntel.connect('button_down', self, 'on_action_button', ['Intel'])
+		ButtonHideIntel.connect('button_down', self, 'on_action_button', ['Default'])
 
 
 func _physics_process(delta):
