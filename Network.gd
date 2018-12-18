@@ -85,7 +85,7 @@ remote func _send_player_info(id, info):
 	new_player.name = str(id)
 	new_player.set_network_master(id)
 	$'/root/Game/Players'.add_child(new_player)
-	new_player.init(info.name, info.position, true)
+	new_player.init(info.name, info.position, null, true)
 
 
 func update_position(id, position):
