@@ -1,0 +1,12 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+
+[ext_resource path="res://player/ColorShift.shader" type="Shader" id=1]
+
+[resource]
+
+render_priority = 0
+shader = ExtResource( 1 )
+shader_param/input_color = Plane( 0.18, 0.172, 0.16, 1 )
+shader_param/output_color = Plane( 0, 0, 1, 1 )
+_sections_unfolded = [ "shader_param" ]
+

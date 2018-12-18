@@ -2,10 +2,10 @@ extends Node
 
 const DEFAULT_IP = '127.0.0.1'
 const DEFAULT_PORT = 31400
-const MAX_PLAYERS = 5
+const MAX_PLAYERS = 4
 
 var players = { }
-var self_data = { name = '', position = Vector2(360, 180) }
+var self_data = { name = '', position = Vector2(), colors = {} }
 var local_player_id = 1
 
 signal player_disconnected
@@ -32,6 +32,7 @@ func create_server(player_nickname, port):
 func connect_to_server(player_nickname, ip, port):
 	
 	self_data.name = player_nickname
+	
 	get_tree().connect('connected_to_server', self, '_connected_to_server')
 	
 	var peer = NetworkedMultiplayerENet.new()
@@ -57,7 +58,7 @@ func _on_player_connected(connected_player_id):
 	
 	local_player_id = get_tree().get_network_unique_id()
 	
-	if not(get_tree().is_network_server()):
+	if not get_tree().is_network_server():
 		rpc_id(1, '_request_player_info', local_player_id, connected_player_id)
 
 

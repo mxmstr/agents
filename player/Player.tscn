@@ -1,83 +1,93 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://player/Player.gd" type="Script" id=1]
 [ext_resource path="res://player/Player.Action.gd" type="Script" id=2]
-[ext_resource path="res://images/detective search.png" type="Texture" id=3]
-[ext_resource path="res://images/detective shoot right.png" type="Texture" id=4]
-[ext_resource path="res://images/detective sleep 00.png" type="Texture" id=5]
-[ext_resource path="res://images/detective sleep 01.png" type="Texture" id=6]
-[ext_resource path="res://images/detective sleep 02.png" type="Texture" id=7]
-[ext_resource path="res://images/detective sleep 03.png" type="Texture" id=8]
-[ext_resource path="res://images/detective run right 00.png" type="Texture" id=9]
-[ext_resource path="res://images/detective run right 01.png" type="Texture" id=10]
-[ext_resource path="res://images/detective run right 02.png" type="Texture" id=11]
-[ext_resource path="res://images/detective run right 03.png" type="Texture" id=12]
-[ext_resource path="res://images/detective run right 04.png" type="Texture" id=13]
-[ext_resource path="res://images/detective run right 05.png" type="Texture" id=14]
-[ext_resource path="res://images/detective run right 06.png" type="Texture" id=15]
-[ext_resource path="res://images/detective run right 07.png" type="Texture" id=16]
-[ext_resource path="res://images/detective run right 08.png" type="Texture" id=17]
-[ext_resource path="res://images/detective run right 09.png" type="Texture" id=18]
-[ext_resource path="res://images/detective run right 10.png" type="Texture" id=19]
-[ext_resource path="res://images/detective run right 11.png" type="Texture" id=20]
-[ext_resource path="res://images/detective run right 12.png" type="Texture" id=21]
-[ext_resource path="res://images/detective run right 13.png" type="Texture" id=22]
-[ext_resource path="res://images/detective run right 14.png" type="Texture" id=23]
-[ext_resource path="res://images/detective run right 15.png" type="Texture" id=24]
-[ext_resource path="res://images/detective run right 16.png" type="Texture" id=25]
-[ext_resource path="res://images/detective run right 17.png" type="Texture" id=26]
-[ext_resource path="res://images/detective run right 18.png" type="Texture" id=27]
-[ext_resource path="res://images/detective run right 19.png" type="Texture" id=28]
-[ext_resource path="res://images/detective chat request.png" type="Texture" id=29]
-[ext_resource path="res://images/detective stand right.png" type="Texture" id=30]
-[ext_resource path="res://images/detective dead.png" type="Texture" id=31]
-[ext_resource path="res://interface/GUI.tscn" type="PackedScene" id=32]
+[ext_resource path="res://player/PlayerHat.tres" type="Material" id=3]
+[ext_resource path="res://images/detective search.png" type="Texture" id=4]
+[ext_resource path="res://images/detective shoot right.png" type="Texture" id=5]
+[ext_resource path="res://images/detective sleep 00.png" type="Texture" id=6]
+[ext_resource path="res://images/detective sleep 01.png" type="Texture" id=7]
+[ext_resource path="res://images/detective sleep 02.png" type="Texture" id=8]
+[ext_resource path="res://images/detective sleep 03.png" type="Texture" id=9]
+[ext_resource path="res://images/detective run right 00.png" type="Texture" id=10]
+[ext_resource path="res://images/detective run right 01.png" type="Texture" id=11]
+[ext_resource path="res://images/detective run right 02.png" type="Texture" id=12]
+[ext_resource path="res://images/detective run right 03.png" type="Texture" id=13]
+[ext_resource path="res://images/detective run right 04.png" type="Texture" id=14]
+[ext_resource path="res://images/detective run right 05.png" type="Texture" id=15]
+[ext_resource path="res://images/detective run right 06.png" type="Texture" id=16]
+[ext_resource path="res://images/detective run right 07.png" type="Texture" id=17]
+[ext_resource path="res://images/detective run right 08.png" type="Texture" id=18]
+[ext_resource path="res://images/detective run right 09.png" type="Texture" id=19]
+[ext_resource path="res://images/detective run right 10.png" type="Texture" id=20]
+[ext_resource path="res://images/detective run right 11.png" type="Texture" id=21]
+[ext_resource path="res://images/detective run right 12.png" type="Texture" id=22]
+[ext_resource path="res://images/detective run right 13.png" type="Texture" id=23]
+[ext_resource path="res://images/detective run right 14.png" type="Texture" id=24]
+[ext_resource path="res://images/detective run right 15.png" type="Texture" id=25]
+[ext_resource path="res://images/detective run right 16.png" type="Texture" id=26]
+[ext_resource path="res://images/detective run right 17.png" type="Texture" id=27]
+[ext_resource path="res://images/detective run right 18.png" type="Texture" id=28]
+[ext_resource path="res://images/detective run right 19.png" type="Texture" id=29]
+[ext_resource path="res://images/detective dead.png" type="Texture" id=30]
+[ext_resource path="res://images/detective stand right.png" type="Texture" id=31]
+[ext_resource path="res://images/detective chat request.png" type="Texture" id=32]
+[ext_resource path="res://player/PlayerFace.tres" type="Material" id=33]
+[ext_resource path="res://player/PlayerCoat.tres" type="Material" id=34]
+[ext_resource path="res://player/PlayerShoes.tres" type="Material" id=35]
+[ext_resource path="res://interface/GUI.tscn" type="PackedScene" id=36]
 
 [sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
 extents = Vector2( 30.5014, 40 )
 
-[sub_resource type="SpriteFrames" id=2]
+[sub_resource type="SpriteFrames" id=4]
 
 animations = [ {
-"frames": [ ExtResource( 3 ) ],
+"frames": [ ExtResource( 4 ) ],
 "loop": false,
 "name": "Search",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 4 ), ExtResource( 4 ), ExtResource( 4 ), ExtResource( 4 ) ],
+"frames": [ ExtResource( 5 ), ExtResource( 5 ), ExtResource( 5 ), ExtResource( 5 ) ],
 "loop": false,
 "name": "Shoot",
 "speed": 1.0
 }, {
-"frames": [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ) ],
+"frames": [ ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ) ],
 "loop": true,
 "name": "Sleep",
 "speed": 0.5
 }, {
-"frames": [ ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 21 ), ExtResource( 22 ), ExtResource( 23 ), ExtResource( 24 ), ExtResource( 25 ), ExtResource( 26 ), ExtResource( 27 ), ExtResource( 28 ) ],
+"frames": [ ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 21 ), ExtResource( 22 ), ExtResource( 23 ), ExtResource( 24 ), ExtResource( 25 ), ExtResource( 26 ), ExtResource( 27 ), ExtResource( 28 ), ExtResource( 29 ) ],
 "loop": true,
 "name": "Walk",
 "speed": 15.0
 }, {
-"frames": [ ExtResource( 29 ) ],
-"loop": false,
-"name": "ChatRequest",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 30 ) ],
 "loop": false,
-"name": "Stand",
+"name": "Dead",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 31 ) ],
 "loop": false,
-"name": "Dead",
+"name": "Stand",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 32 ) ],
+"loop": false,
+"name": "ChatRequest",
 "speed": 5.0
 } ]
 
-[node name="Player" type="KinematicBody2D" groups=[
+[sub_resource type="CanvasItemMaterial" id=5]
+
+render_priority = 0
+blend_mode = 0
+light_mode = 0
+
+[node name="Player" type="KinematicBody2D" index="0" groups=[
 "players",
 ]]
 
@@ -86,7 +96,7 @@ collision_layer = 1
 collision_mask = 1
 collision/safe_margin = 0.08
 script = ExtResource( 1 )
-_sections_unfolded = [ "Collision", "Pickable", "Transform", "collision" ]
+_sections_unfolded = [ "Collision", "Material", "Pickable", "Transform", "collision" ]
 
 [node name="Action" type="Node" parent="." index="0"]
 
@@ -99,27 +109,76 @@ scale = Vector2( 0.357213, 0.436047 )
 shape = SubResource( 1 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Sprite" type="AnimatedSprite" parent="." index="2"]
+[node name="Hat" type="AnimatedSprite" parent="." index="2"]
 
+material = ExtResource( 3 )
 scale = Vector2( 0.25, 0.25 )
-frames = SubResource( 2 )
+z_index = 1
+frames = SubResource( 4 )
 animation = "Stand"
 playing = true
-_sections_unfolded = [ "Animation", "Offset", "Transform" ]
+_sections_unfolded = [ "Animation", "Material", "Offset", "Transform", "Visibility", "Z Index" ]
 
-[node name="GUI" parent="." index="3" instance=ExtResource( 32 )]
+[node name="Face" type="AnimatedSprite" parent="." index="3"]
+
+material = ExtResource( 33 )
+scale = Vector2( 0.25, 0.25 )
+z_index = 1
+frames = SubResource( 4 )
+animation = "Stand"
+playing = true
+_sections_unfolded = [ "Animation", "Material", "Offset", "Transform", "Visibility", "Z Index" ]
+
+[node name="Coat" type="AnimatedSprite" parent="." index="4"]
+
+material = ExtResource( 34 )
+scale = Vector2( 0.25, 0.25 )
+z_index = 1
+frames = SubResource( 4 )
+animation = "Stand"
+playing = true
+_sections_unfolded = [ "Animation", "Material", "Offset", "Transform", "Visibility", "Z Index" ]
+
+[node name="Shoes" type="AnimatedSprite" parent="." index="5"]
+
+material = ExtResource( 35 )
+scale = Vector2( 0.25, 0.25 )
+z_index = 1
+frames = SubResource( 4 )
+animation = "Stand"
+playing = true
+_sections_unfolded = [ "Animation", "Material", "Offset", "Transform", "Visibility", "Z Index" ]
+
+[node name="SpriteBase" type="AnimatedSprite" parent="." index="6"]
+
+material = SubResource( 5 )
+scale = Vector2( 0.25, 0.25 )
+frames = SubResource( 4 )
+animation = "Stand"
+playing = true
+_sections_unfolded = [ "Animation", "Material", "Offset", "Transform", "Visibility", "Z Index" ]
+
+[node name="GUI" parent="." index="7" instance=ExtResource( 36 )]
 
 margin_top = -154.0
 margin_bottom = 88.0
 
-[node name="RespawnTimer" type="Timer" parent="." index="4"]
+[node name="RespawnTimer" type="Timer" parent="." index="8"]
 
 process_mode = 1
 wait_time = 3.0
 one_shot = true
 autostart = false
 
-[connection signal="animation_finished" from="Sprite" to="." method="on_animation_finished"]
+[connection signal="animation_finished" from="Hat" to="." method="on_animation_finished"]
+
+[connection signal="animation_finished" from="Face" to="." method="on_animation_finished"]
+
+[connection signal="animation_finished" from="Coat" to="." method="on_animation_finished"]
+
+[connection signal="animation_finished" from="Shoes" to="." method="on_animation_finished"]
+
+[connection signal="animation_finished" from="SpriteBase" to="." method="on_animation_finished"]
 
 [connection signal="timeout" from="RespawnTimer" to="." method="_on_RespawnTimer_timeout"]
 

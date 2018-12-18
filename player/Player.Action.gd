@@ -277,7 +277,7 @@ func move_to():
 	var collision = get_parent().move_and_collide(
 		direction.normalized() * get_parent().MOVE_SPEED
 		)
-	$'../Sprite'.flip_h = direction.x < 0
+	get_parent().set_sprite_prop('flip_h', direction.x < 0)
 	
 	return (
 		direction.length() < MOVE_GOAL_RADIUS or 
@@ -297,7 +297,7 @@ func request_chat():
 func wait_chat():
 	
 	var direction = target.global_position - get_parent().global_position
-	get_parent().get_node('Sprite').flip_h = direction.x < 0
+	get_parent().set_sprite_prop('flip_h', direction.x < 0)
 	
 	if target_is_player() and target_has_action('wait_chat') and target_interacting_with_me():
 		get_parent().receive_message('You are in chat with ' + target.nickname + '.')
@@ -323,13 +323,13 @@ func chat():
 func request_shoot():
 	
 	var direction = target.global_position - get_parent().global_position
-	$'../Sprite'.flip_h = direction.x < 0
+	get_parent().set_sprite_prop('flip_h', direction.x < 0)
 	
 	
 	target.get_node('Action').rpc('remote_start_action', 'RequestGetShot', int(get_parent().name))
 		
 		
-	if $'../Sprite'.flip_h:
+	if get_parent().sprite_is_flipped():
 		get_parent().global_position = target.global_position + Vector2(INTERACT_RADIUS, 0)
 	else:
 		get_parent().global_position = target.global_position - Vector2(INTERACT_RADIUS, 0)
@@ -343,7 +343,7 @@ func request_get_shot():
 	var shooter = get_node('../../' + str(target))
 	
 	var direction = shooter.global_position - get_parent().global_position
-	$'../Sprite'.flip_h = direction.x < 0
+	get_parent().set_sprite_prop('flip_h', direction.x < 0)
 	
 	shooter.get_node('Action').rpc('remote_start_action', 'Shoot', null)
 	start_action('GetShot', shooter)
@@ -352,12 +352,12 @@ func request_get_shot():
 
 
 func _ready():
-	
+
 	if is_network_master():
 		connect('change_ui', Chat, 'change_ui')
 
 
 func _physics_process(delta):
-	
+
 	if is_network_master():
 		exec_action()
