@@ -18,6 +18,13 @@ func _ready():
 	get_tree().connect('network_peer_connected', self, '_on_player_connected')
 
 
+func free_data():
+	
+	var players = { }
+	var self_data = { name = '', position = Vector2(), colors = {} }
+	var local_player_id = 1
+
+
 func create_server(player_nickname, port):
 	
 	self_data.name = player_nickname
@@ -85,7 +92,7 @@ remote func _send_player_info(id, info):
 	new_player.name = str(id)
 	new_player.set_network_master(id)
 	$'/root/Game/Players'.add_child(new_player)
-	new_player.init(info.name, info.position, null, true)
+	new_player.init(info.name, info.position, null, null, null, null, true)
 
 
 func update_position(id, position):

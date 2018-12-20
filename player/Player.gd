@@ -3,10 +3,10 @@ extends KinematicBody2D
 const MOVE_SPEED = 5.0
 const MAX_HP = 100
 const COLORS = {
-	'Red' : Color(1, 0, 0, 1),
-	'Green' : Color(0, 1, 0, 1),
-	'Blue' : Color(0, 0, 1, 1),
-	'Yellow' : Color(1, 1, 0, 1),
+	'Red' : Color(1, 0, 0, 0.5),
+	'Green' : Color(0, 1, 0, 0.5),
+	'Blue' : Color(0, 0, 1, 0.5),
+	'Yellow' : Color(1, 1, 0, 0.5),
 	}
 const DEFAULT_COLORS = {
 	'Shoes' : Color(0.07, 0.07, 0.07, 1),
@@ -23,9 +23,11 @@ slave var slave_animation = 'Stand'
 var nickname = ''
 var health_points = MAX_HP
 var colors = null
+var role = null
 
 onready var MessageInput = $'/root/Game/UI/Chat/ChatContainer/MessageContainer/Message_Input'
 onready var ClickZone = $'/root/Game/ClickZone/ClickZone'
+onready var ButtonExit = $'/root/Game/UI/Chat/ExitContainer/Exit'
 onready var ButtonChat = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/Chat'
 onready var ButtonEndChat = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/EndChat'
 onready var ButtonShoot = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/Shoot'
@@ -34,31 +36,59 @@ onready var ButtonSearch = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/S
 onready var ButtonIntel = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/Intel'
 onready var ButtonHideIntel = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/HideIntel'
 
+signal Dead
 
-func init(_nickname, start_position, _colors, is_slave):
+
+func init(_nickname, start_position, _colors, _role, intel_component, intel_color, is_slave):
 	
 	nickname = _nickname
 	colors = _colors
+	role = _role
 	$GUI/Nickname.text = _nickname
 	global_position = start_position
 	
 	if is_network_master():
-		send_player_info(colors)
+		$'/root/Game'.connect('victory_good', self, 'victory_good')
+		$'/root/Game'.connect('victory_bad', self, 'victory_bad')
+		
+		if role == 'Traitor':
+			receive_message('You are the traitor. Eliminate all agents.')
+		elif role == 'Agent':
+			receive_message('Find and eliminate the traitor.')
+		
+		$'/root/Game/UI/Chat/ChatContainer/IntelDisplay'.text = (
+			'The traitor has ' + intel_color + ' ' + intel_component + '.'
+			)
+		
+		send_player_info(colors, _role)
 	
 	if is_slave:
 		add_to_group('Slave')
 		slave_position = start_position
 
 
+func victory_good():
+	
+	$Action.start_action('Victory')
+	$Action.emit_signal('change_ui', 'VictoryGood')
+
+
+func victory_bad():
+	
+	$Action.start_action('Victory')
+	$Action.emit_signal('change_ui', 'VictoryBad')
+
+
 remote func request_player_info(sender_id):
 	
 	if is_network_master():
-		rpc_id(sender_id, 'send_player_info', colors)
+		rpc_id(sender_id, 'send_player_info', colors, role)
 
 
-remote func send_player_info(_colors):
+remote func send_player_info(_colors, _role):
 	
 	colors = _colors
+	role = _role
 	
 	for component in colors:
 		var color_name = colors[component]
@@ -113,6 +143,11 @@ func on_action_button(action_name):
 	$Action.start_action(action_name, null)
 
 
+func on_exit_button():
+	
+	$'/root/Game'._on_server_disconnected()
+
+
 func on_animation_finished():
 	
 	if is_network_master():
@@ -139,6 +174,7 @@ func _ready():
 	if is_network_master():
 		MessageInput.connect('text_entered', self, 'send_message')
 		ClickZone.connect('button_down', self, 'on_action_button', ['MoveTo'])
+		ButtonExit.connect('button_down', self, 'on_exit_button')
 		ButtonChat.connect('button_down', self, 'on_action_button', ['RequestChat'])
 		ButtonEndChat.connect('button_down', self, 'on_action_button', ['Default'])
 		ButtonShoot.connect('button_down', self, 'on_action_button', ['RequestShoot'])
@@ -146,7 +182,6 @@ func _ready():
 		ButtonSearch.connect('button_down', self, 'on_action_button', ['Search'])
 		ButtonIntel.connect('button_down', self, 'on_action_button', ['Intel'])
 		ButtonHideIntel.connect('button_down', self, 'on_action_button', ['Default'])
-
 
 
 func _process(delta):

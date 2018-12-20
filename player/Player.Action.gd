@@ -80,7 +80,7 @@ const ACTIONS = {
 		},
 	
 	'GetShot' : {
-		'priority' : 3,
+		'priority' : 5,
 		'ui' : 'Default',
 		'animation' : 'Dead',
 		'can_interrupt' : false,
@@ -108,9 +108,17 @@ const ACTIONS = {
 	'Intel' : {
 		'priority' : 2,
 		'ui' : 'Intel',
+		'animation' : 'Intel',
+		'can_interrupt' : false,
+		'reset_anim_finish' : false,
+		},
+	
+	'Victory' : {
+		'priority' : 4,
+		'ui' : 'Default',
 		'animation' : 'Stand',
 		'can_interrupt' : false,
-		'reset_anim_finish' : true,
+		'reset_anim_finish' : false,
 		},
 	
 	}
@@ -139,7 +147,7 @@ func target_has_action(action_name):
 	
 	var target_action = target.get_node('Action').slave_action
 	
-	return target_action.has('action') and target_action['action'] == action_name
+	return target_action == action_name
 
 
 func target_interacting_with_me():
@@ -153,6 +161,11 @@ func on_animation_finished():
 	
 	if action['reset_anim_finish']:
 		start_action('Default')
+
+
+func on_player_died():
+	
+	$'/root/Game'.rpc('player_has_died', get_parent().role)
 
 
 func send_message(message):
@@ -200,7 +213,7 @@ func start_action(action_name, new_target=null):
 		
 		
 		action = new_action
-		rset('slave_action', action)
+		rset('slave_action', action_name)
 
 
 func exec_action():
@@ -236,7 +249,6 @@ func get_mouse_pos():
 
 func get_closest_target():
 	
-	#if $Sprite.flip_h:
 	var closest = null
 	
 	for player in get_tree().get_nodes_in_group('Slave'):
@@ -244,9 +256,10 @@ func get_closest_target():
 		if player == get_parent():
 			continue
 		
+		var player_action = player.get_node('Action').slave_action
 		var player_dist = player.global_position.distance_to(get_parent().global_position)
 		
-		if player_dist < MAX_INTERACT_RADIUS:
+		if player_dist < MAX_INTERACT_RADIUS and not player_action in ['GetShot', 'GetSlept']:
 		
 			if closest == null:
 				closest = player
@@ -299,7 +312,7 @@ func wait_chat():
 	var direction = target.global_position - get_parent().global_position
 	get_parent().set_sprite_prop('flip_h', direction.x < 0)
 	
-	if target_is_player() and target_has_action('wait_chat') and target_interacting_with_me():
+	if target_is_player() and target_has_action('WaitChat') and target_interacting_with_me():
 		get_parent().receive_message('You are in chat with ' + target.nickname + '.')
 		start_action('Chat', target)
 		target.rpc('receive_message', 'You are in chat with ' + get_parent().nickname + '.')
@@ -312,7 +325,7 @@ func wait_chat():
 func chat():
 	
 	if not target_is_player() \
-		or not (target_has_action('wait_chat') or target_has_action('chat')) \
+		or not (target_has_action('WaitChat') or target_has_action('Chat')) \
 		or not target_interacting_with_me():
 		get_parent().receive_message('Chat ended by ' + target.nickname + '.')
 		return true
@@ -344,6 +357,13 @@ func request_get_shot():
 	
 	var direction = shooter.global_position - get_parent().global_position
 	get_parent().set_sprite_prop('flip_h', direction.x < 0)
+	
+	var timer = Timer.new()
+	timer.connect('timeout', self, 'on_player_died')
+	timer.wait_time = 1.0
+	timer.one_shot = true
+	add_child(timer)
+	timer.start()
 	
 	shooter.get_node('Action').rpc('remote_start_action', 'Shoot', null)
 	start_action('GetShot', shooter)

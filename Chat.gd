@@ -4,6 +4,8 @@ const UI_PRESETS = {
 	
 	'Default' : {
 		'visible' : [
+			'ExitContainer',
+			'Exit',
 			'ChatContainer',
 			'FeedContainer',
 			'Feed',
@@ -18,6 +20,8 @@ const UI_PRESETS = {
 	
 	'Chat' : {
 		'visible' : [
+			'ExitContainer',
+			'Exit',
 			'ChatContainer',
 			'FeedContainer',
 			'Feed',
@@ -34,6 +38,9 @@ const UI_PRESETS = {
 		
 	'Intel' : {
 		'visible' : [
+			'ExitContainer',
+			'Exit',
+			'IntelDisplay',
 			'ChatContainer',
 			'FeedContainer',
 			'Feed',
@@ -43,6 +50,28 @@ const UI_PRESETS = {
 			'Sleep',
 			'Search',
 			'HideIntel',
+			],
+		},
+		
+	'VictoryGood' : {
+		'visible' : [
+			'ExitContainer',
+			'Exit',
+			'ChatContainer',
+			'VictoryGood',
+			'FeedContainer',
+			'Feed',
+			],
+		},
+		
+	'VictoryBad' : {
+		'visible' : [
+			'ExitContainer',
+			'Exit',
+			'ChatContainer',
+			'VictoryBad',
+			'FeedContainer',
+			'Feed',
 			],
 		},
 	
