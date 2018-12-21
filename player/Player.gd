@@ -24,8 +24,14 @@ var nickname = ''
 var health_points = MAX_HP
 var colors = null
 var role = null
+var intel = []
+var bullets = 1
+var darts = 1
 
 onready var MessageInput = $'/root/Game/UI/Chat/ChatContainer/MessageContainer/Message_Input'
+onready var SearchTitle = $'/root/Game/UI/Chat/ChatContainer/SearchContainer/SearchTitle'
+onready var SearchInfo = $'/root/Game/UI/Chat/ChatContainer/SearchContainer/SearchInfo'
+onready var IntelDisplay = $'/root/Game/UI/Chat/ChatContainer/IntelDisplay'
 onready var ClickZone = $'/root/Game/ClickZone/ClickZone'
 onready var ButtonExit = $'/root/Game/UI/Chat/ExitContainer/Exit'
 onready var ButtonChat = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/Chat'
@@ -33,10 +39,9 @@ onready var ButtonEndChat = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/
 onready var ButtonShoot = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/Shoot'
 onready var ButtonSleep = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/Sleep'
 onready var ButtonSearch = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/Search'
+onready var ButtonHideSearch = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/HideSearch'
 onready var ButtonIntel = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/Intel'
 onready var ButtonHideIntel = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/HideIntel'
-
-signal Dead
 
 
 func init(_nickname, start_position, _colors, _role, intel_component, intel_color, is_slave):
@@ -44,6 +49,7 @@ func init(_nickname, start_position, _colors, _role, intel_component, intel_colo
 	nickname = _nickname
 	colors = _colors
 	role = _role
+	
 	$GUI/Nickname.text = _nickname
 	global_position = start_position
 	
@@ -56,11 +62,10 @@ func init(_nickname, start_position, _colors, _role, intel_component, intel_colo
 		elif role == 'Agent':
 			receive_message('Find and eliminate the traitor.')
 		
-		$'/root/Game/UI/Chat/ChatContainer/IntelDisplay'.text = (
-			'The traitor has ' + intel_color + ' ' + intel_component + '.'
-			)
+		intel.append('The traitor has ' + intel_color + ' ' + intel_component + '.')
+		IntelDisplay.text = intel[0]
 		
-		send_player_info(colors, _role)
+		send_player_info(colors, role)
 	
 	if is_slave:
 		add_to_group('Slave')
@@ -93,6 +98,32 @@ remote func send_player_info(_colors, _role):
 	for component in colors:
 		var color_name = colors[component]
 		get_node(component).material.set_shader_param('output_color', COLORS[color_name])
+
+
+remote func request_player_inventory(sender_id):
+	
+	if is_network_master():
+		rpc_id(sender_id, 'send_player_inventory', nickname, bullets, darts, intel)
+		
+		bullets = 0
+		darts = 0
+		intel = []
+
+
+remote func send_player_inventory(_nickname, _bullets, _darts, _intel):
+	
+	SearchTitle.text = _nickname + "'s Inventory"
+	SearchInfo.text = str(_bullets) + ' Bullets ' + str(_darts) + ' Darts ' + str(len(_intel)) + ' Intel Confiscated'
+	
+	bullets += _bullets
+	darts += _darts
+	
+	for line in _intel:
+		intel.append(line)
+	
+	IntelDisplay.text = ''
+	for line in intel:
+		IntelDisplay.text += '\n ' + line
 
 
 remote func set_colors(_colors):
@@ -178,8 +209,9 @@ func _ready():
 		ButtonChat.connect('button_down', self, 'on_action_button', ['RequestChat'])
 		ButtonEndChat.connect('button_down', self, 'on_action_button', ['Default'])
 		ButtonShoot.connect('button_down', self, 'on_action_button', ['RequestShoot'])
-		ButtonSleep.connect('button_down', self, 'on_action_button', ['Sleep'])
-		ButtonSearch.connect('button_down', self, 'on_action_button', ['Search'])
+		ButtonSleep.connect('button_down', self, 'on_action_button', ['RequestSleep'])
+		ButtonSearch.connect('button_down', self, 'on_action_button', ['RequestSearch'])
+		ButtonHideSearch.connect('button_down', self, 'on_action_button', ['Default'])
 		ButtonIntel.connect('button_down', self, 'on_action_button', ['Intel'])
 		ButtonHideIntel.connect('button_down', self, 'on_action_button', ['Default'])
 

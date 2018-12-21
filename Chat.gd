@@ -35,7 +35,26 @@ const UI_PRESETS = {
 			'Intel',
 			],
 		},
-		
+	
+	'Search' : {
+		'visible' : [
+			'ExitContainer',
+			'Exit',
+			'ChatContainer',
+			'SearchContainer',
+			'SearchTitle',
+			'SearchInfo',
+			'FeedContainer',
+			'Feed',
+			'ActionsContainer',
+			'Chat',
+			'Shoot',
+			'Sleep',
+			'HideSearch',
+			'Intel',
+			],
+		},
+	
 	'Intel' : {
 		'visible' : [
 			'ExitContainer',

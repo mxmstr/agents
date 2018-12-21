@@ -30,7 +30,7 @@ const ACTIONS = {
 		'animation' : 'Stand',
 		'can_interrupt' : true,
 		'reset_anim_finish' : false,
-		'target_source' : 'get_closest_target',
+		'target_source' : 'get_closest_alive_target',
 		'action' : 'request_chat',
 		},
 		
@@ -58,7 +58,7 @@ const ACTIONS = {
 		'animation' : 'Stand',
 		'can_interrupt' : false,
 		'reset_anim_finish' : false,
-		'target_source' : 'get_closest_target',
+		'target_source' : 'get_closest_alive_target',
 		'action' : 'request_shoot',
 		},
 		
@@ -87,22 +87,48 @@ const ACTIONS = {
 		'reset_anim_finish' : false,
 		},
 		
-	'Sleep' : {
+	'RequestSleep' : {
 		'priority' : 2,
+		'ui' : 'Default',
+		'animation' : 'Stand',
+		'can_interrupt' : false,
+		'reset_anim_finish' : false,
+		'target_source' : 'get_closest_alive_target',
+		'action' : 'request_sleep',
+		},
+		
+	'Sleep' : {
+		'priority' : 3,
 		'ui' : 'Default',
 		'animation' : 'Shoot',
 		'can_interrupt' : false,
 		'reset_anim_finish' : true,
-		'target_source' : 'get_closest_target',
+		},
+	
+	'GetSlept' : {
+		'priority' : 5,
+		'ui' : 'Default',
+		'animation' : 'Sleep',
+		'can_interrupt' : false,
+		'reset_anim_finish' : true,
+		},
+		
+	'RequestSearch' : {
+		'priority' : 2,
+		'ui' : 'Default',
+		'animation' : 'Default',
+		'can_interrupt' : false,
+		'reset_anim_finish' : false,
+		'target_source' : 'get_closest_dead_target',
+		'action' : 'request_search',
 		},
 		
 	'Search' : {
-		'priority' : 2,
-		'ui' : 'Default',
-		'animation' : 'Shoot',
+		'priority' : 3,
+		'ui' : 'Search',
+		'animation' : 'Search',
 		'can_interrupt' : false,
 		'reset_anim_finish' : true,
-		'target_source' : 'get_closest_target',
 		},
 		
 	'Intel' : {
@@ -166,6 +192,16 @@ func on_animation_finished():
 func on_player_died():
 	
 	$'/root/Game'.rpc('player_has_died', get_parent().role)
+
+
+func start_timer(time, result):
+	
+	var timer = Timer.new()
+	timer.connect('timeout', self, result)
+	timer.wait_time = time
+	timer.one_shot = true
+	add_child(timer)
+	timer.start()
 
 
 func send_message(message):
@@ -247,7 +283,7 @@ func get_mouse_pos():
 	return get_parent().get_global_mouse_position()
 
 
-func get_closest_target():
+func get_closest_alive_target():
 	
 	var closest = null
 	
@@ -260,6 +296,32 @@ func get_closest_target():
 		var player_dist = player.global_position.distance_to(get_parent().global_position)
 		
 		if player_dist < MAX_INTERACT_RADIUS and not player_action in ['GetShot', 'GetSlept']:
+		
+			if closest == null:
+				closest = player
+				continue
+			
+			var closest_dist = closest.global_position.distance_to(get_parent().global_position)
+				
+			if player_dist < closest_dist:
+				closest = player
+			
+	return closest
+
+
+func get_closest_dead_target():
+	
+	var closest = null
+	
+	for player in get_tree().get_nodes_in_group('Slave'):
+		
+		if player == get_parent():
+			continue
+		
+		var player_action = player.get_node('Action').slave_action
+		var player_dist = player.global_position.distance_to(get_parent().global_position)
+		
+		if player_dist < MAX_INTERACT_RADIUS and player_action in ['GetShot', 'GetSlept']:
 		
 			if closest == null:
 				closest = player
@@ -335,19 +397,21 @@ func chat():
 
 func request_shoot():
 	
+	if get_parent().bullets == 0:
+		return true
+	
 	var direction = target.global_position - get_parent().global_position
 	get_parent().set_sprite_prop('flip_h', direction.x < 0)
 	
-	
 	target.get_node('Action').rpc('remote_start_action', 'RequestGetShot', int(get_parent().name))
-		
 		
 	if get_parent().sprite_is_flipped():
 		get_parent().global_position = target.global_position + Vector2(INTERACT_RADIUS, 0)
 	else:
 		get_parent().global_position = target.global_position - Vector2(INTERACT_RADIUS, 0)
-		
-		
+	
+	get_parent().bullets -= 1
+	
 	return false
 
 
@@ -358,15 +422,50 @@ func request_get_shot():
 	var direction = shooter.global_position - get_parent().global_position
 	get_parent().set_sprite_prop('flip_h', direction.x < 0)
 	
-	var timer = Timer.new()
-	timer.connect('timeout', self, 'on_player_died')
-	timer.wait_time = 1.0
-	timer.one_shot = true
-	add_child(timer)
-	timer.start()
+	start_timer(1.0, 'on_player_died')
 	
 	shooter.get_node('Action').rpc('remote_start_action', 'Shoot', null)
 	start_action('GetShot', shooter)
+	
+	return false
+
+
+func request_sleep():
+	
+	if get_parent().darts == 0:
+		return true
+	
+	var direction = target.global_position - get_parent().global_position
+	get_parent().set_sprite_prop('flip_h', direction.x < 0)
+	
+	if get_parent().sprite_is_flipped():
+		get_parent().global_position = target.global_position + Vector2(INTERACT_RADIUS, 0)
+	else:
+		get_parent().global_position = target.global_position - Vector2(INTERACT_RADIUS, 0)
+	
+	target.rpc('request_player_inventory', int(get_parent().name))
+	target.get_node('Action').rpc('remote_start_action', 'GetSlept', null)
+	start_action('Sleep', target)
+	
+	get_parent().darts -= 1
+	
+	return false
+
+
+func request_search():
+	
+	target.rpc('request_inventory', int(get_parent().name))
+	start_action('Search', target)
+	
+	return false
+
+
+func search():
+	
+	if not target_is_player() \
+		or not (target_has_action('GetSlept') or target_has_action('GetShot')) \
+		or not target_interacting_with_me():
+		return true
 	
 	return false
 
