@@ -151,7 +151,7 @@ const ACTIONS = {
 
 signal change_ui
 
-slave var slave_action = ACTIONS['Default']
+slave var slave_action = 'Default'
 slave var slave_target_id = null
 
 var action = ACTIONS['Default']
@@ -443,7 +443,6 @@ func request_sleep():
 	else:
 		get_parent().global_position = target.global_position - Vector2(INTERACT_RADIUS, 0)
 	
-	target.rpc('request_player_inventory', int(get_parent().name))
 	target.get_node('Action').rpc('remote_start_action', 'GetSlept', null)
 	start_action('Sleep', target)
 	
@@ -454,7 +453,7 @@ func request_sleep():
 
 func request_search():
 	
-	target.rpc('request_inventory', int(get_parent().name))
+	target.rpc('request_player_inventory', int(get_parent().name))
 	start_action('Search', target)
 	
 	return false

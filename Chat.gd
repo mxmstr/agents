@@ -15,6 +15,7 @@ const UI_PRESETS = {
 			'Sleep',
 			'Search',
 			'Intel',
+			'ClickZone',
 			],
 		},
 	
@@ -52,6 +53,7 @@ const UI_PRESETS = {
 			'Sleep',
 			'HideSearch',
 			'Intel',
+			'ClickZone',
 			],
 		},
 	
@@ -69,6 +71,7 @@ const UI_PRESETS = {
 			'Sleep',
 			'Search',
 			'HideIntel',
+			'ClickZone',
 			],
 		},
 		

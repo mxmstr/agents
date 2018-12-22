@@ -32,7 +32,7 @@ onready var MessageInput = $'/root/Game/UI/Chat/ChatContainer/MessageContainer/M
 onready var SearchTitle = $'/root/Game/UI/Chat/ChatContainer/SearchContainer/SearchTitle'
 onready var SearchInfo = $'/root/Game/UI/Chat/ChatContainer/SearchContainer/SearchInfo'
 onready var IntelDisplay = $'/root/Game/UI/Chat/ChatContainer/IntelDisplay'
-onready var ClickZone = $'/root/Game/ClickZone/ClickZone'
+onready var ClickZone = $'/root/Game/UI/Chat/ClickZone'
 onready var ButtonExit = $'/root/Game/UI/Chat/ExitContainer/Exit'
 onready var ButtonChat = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/Chat'
 onready var ButtonEndChat = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/EndChat'
@@ -64,6 +64,7 @@ func init(_nickname, start_position, _colors, _role, intel_component, intel_colo
 		
 		intel.append('The traitor has ' + intel_color + ' ' + intel_component + '.')
 		IntelDisplay.text = intel[0]
+		IntelDisplay.text += '\n You have ' + str(bullets) + ' bullets and ' + str(darts) + ' darts.'
 		
 		send_player_info(colors, role)
 	
@@ -103,27 +104,38 @@ remote func send_player_info(_colors, _role):
 remote func request_player_inventory(sender_id):
 	
 	if is_network_master():
-		rpc_id(sender_id, 'send_player_inventory', nickname, bullets, darts, intel)
+		get_node('/root/Game/Players/' + str(sender_id)).rpc(
+			'send_player_inventory', nickname, bullets, darts, intel
+			)
 		
 		bullets = 0
 		darts = 0
 		intel = []
+		
+		IntelDisplay.text = 'You have ' + str(bullets) + ' bullets and ' + str(darts) + ' darts.'
 
 
 remote func send_player_inventory(_nickname, _bullets, _darts, _intel):
 	
-	SearchTitle.text = _nickname + "'s Inventory"
-	SearchInfo.text = str(_bullets) + ' Bullets ' + str(_darts) + ' Darts ' + str(len(_intel)) + ' Intel Confiscated'
+	if is_network_master():
 	
-	bullets += _bullets
-	darts += _darts
-	
-	for line in _intel:
-		intel.append(line)
-	
-	IntelDisplay.text = ''
-	for line in intel:
-		IntelDisplay.text += '\n ' + line
+		SearchTitle.text = _nickname + "'s Inventory"
+		SearchInfo.text = str(_bullets) + ' Bullets ' + str(_darts) + ' Darts ' + str(len(_intel)) + ' Intel Confiscated'
+		
+		bullets += _bullets
+		darts += _darts
+		
+		for line in _intel:
+			intel.append(line)
+		
+		IntelDisplay.text = ''
+		for line in intel:
+			if IntelDisplay.text == '':
+				IntelDisplay.text += line
+			else:
+				IntelDisplay.text += '\n ' + line
+		
+		IntelDisplay.text += '\n You have ' + str(bullets) + ' bullets and ' + str(darts) + ' darts.'
 
 
 remote func set_colors(_colors):

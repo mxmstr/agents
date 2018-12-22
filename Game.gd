@@ -1,10 +1,10 @@
 extends Node
 
 const SPAWN_POSITIONS = [
-	Vector2(50, 50),
-	Vector2(550, 50),
-	Vector2(50, 550),
-	Vector2(550, 550),
+	Vector2(300, 30),
+	Vector2(500, 210),
+	Vector2(350, 490),
+	Vector2(60, 460),
 ]
 const ROLES = ['Traitor', 'Agent', 'Agent', 'Agent']
 const COLORS = ['Green', 'Red', 'Yellow', 'Blue']
