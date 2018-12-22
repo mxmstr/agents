@@ -67,6 +67,7 @@ func _load_config():
 		_player_name = config.get_value('Network', 'nickname', _player_name)
 		_port = config.get_value('Network', 'port', _port)
 		_ip = config.get_value('Network', 'ip', _ip)
+		
 		Name.text = _player_name
 		Port.text = str(_port)
 		Address.text = _ip

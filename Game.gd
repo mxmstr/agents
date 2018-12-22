@@ -88,7 +88,8 @@ func _on_player_disconnected(id):
 
 func _on_server_disconnected():
 	
-	#Network.queue_free()
+	get_tree().network_peer.close_connection()
+	get_tree().set_network_peer(null)
 	get_tree().change_scene('res://interface/Menu.tscn')
 
 

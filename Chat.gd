@@ -51,7 +51,7 @@ const UI_PRESETS = {
 			'Chat',
 			'Shoot',
 			'Sleep',
-			'HideSearch',
+			'Search',
 			'Intel',
 			'ClickZone',
 			],
