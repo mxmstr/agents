@@ -8,6 +8,7 @@ const ACTIONS = {
 	'Default' : {
 		'priority' : -1,
 		'ui' : 'Default',
+		'hud' : 'Default',
 		'collision' : true,
 		'animation' : 'Stand',
 		'can_interrupt' : false,
@@ -18,6 +19,7 @@ const ACTIONS = {
 	'MoveTo' : {
 		'priority' : 0,
 		'ui' : 'Default',
+		'hud' : 'Default',
 		'collision' : true,
 		'animation' : 'Walk',
 		'can_interrupt' : true,
@@ -29,6 +31,7 @@ const ACTIONS = {
 	'RequestChat' : {
 		'priority' : 0,
 		'ui' : 'Default',
+		'hud' : 'Default',
 		'collision' : true,
 		'animation' : 'Stand',
 		'can_interrupt' : true,
@@ -40,6 +43,7 @@ const ACTIONS = {
 	'WaitChat' : {
 		'priority' : 0,
 		'ui' : 'Default',
+		'hud' : 'Default',
 		'collision' : true,
 		'animation' : 'ChatRequest',
 		'can_interrupt' : true,
@@ -50,6 +54,7 @@ const ACTIONS = {
 	'Chat' : {
 		'priority' : 1,
 		'ui' : 'Chat',
+		'hud' : 'Chat',
 		'collision' : true,
 		'animation' : 'Stand',
 		'can_interrupt' : false,
@@ -60,6 +65,7 @@ const ACTIONS = {
 	'RequestShoot' : {
 		'priority' : 2,
 		'ui' : 'Default',
+		'hud' : 'Default',
 		'collision' : true,
 		'animation' : 'Stand',
 		'can_interrupt' : false,
@@ -71,6 +77,7 @@ const ACTIONS = {
 	'Shoot' : {
 		'priority' : 3,
 		'ui' : 'Default',
+		'hud' : 'Default',
 		'collision' : true,
 		'animation' : 'Shoot',
 		'can_interrupt' : false,
@@ -80,6 +87,7 @@ const ACTIONS = {
 	'RequestGetShot' : {
 		'priority' : 2,
 		'ui' : 'Default',
+		'hud' : 'Default',
 		'collision' : true,
 		'animation' : 'Stand',
 		'can_interrupt' : false,
@@ -90,6 +98,7 @@ const ACTIONS = {
 	'GetShot' : {
 		'priority' : 5,
 		'ui' : 'Default',
+		'hud' : 'Default',
 		'collision' : false,
 		'animation' : 'Dead',
 		'can_interrupt' : false,
@@ -99,6 +108,7 @@ const ACTIONS = {
 	'RequestSleep' : {
 		'priority' : 2,
 		'ui' : 'Default',
+		'hud' : 'Default',
 		'collision' : true,
 		'animation' : 'Stand',
 		'can_interrupt' : false,
@@ -110,6 +120,7 @@ const ACTIONS = {
 	'Sleep' : {
 		'priority' : 3,
 		'ui' : 'Default',
+		'hud' : 'Default',
 		'collision' : true,
 		'animation' : 'Shoot',
 		'can_interrupt' : false,
@@ -119,6 +130,7 @@ const ACTIONS = {
 	'GetSlept' : {
 		'priority' : 5,
 		'ui' : 'Default',
+		'hud' : 'Default',
 		'collision' : false,
 		'animation' : 'Sleep',
 		'can_interrupt' : false,
@@ -128,6 +140,7 @@ const ACTIONS = {
 	'RequestSearch' : {
 		'priority' : 2,
 		'ui' : 'Default',
+		'hud' : 'Default',
 		'collision' : true,
 		'animation' : 'Default',
 		'can_interrupt' : false,
@@ -139,6 +152,7 @@ const ACTIONS = {
 	'Search' : {
 		'priority' : 3,
 		'ui' : 'Search',
+		'hud' : 'Default',
 		'collision' : true,
 		'animation' : 'Search',
 		'can_interrupt' : false,
@@ -148,6 +162,7 @@ const ACTIONS = {
 	'Intel' : {
 		'priority' : 2,
 		'ui' : 'Intel',
+		'hud' : 'Default',
 		'collision' : true,
 		'animation' : 'Intel',
 		'can_interrupt' : false,
@@ -157,6 +172,7 @@ const ACTIONS = {
 	'Victory' : {
 		'priority' : 4,
 		'ui' : 'Default',
+		'hud' : 'Default',
 		'collision' : true,
 		'animation' : 'Stand',
 		'can_interrupt' : false,
@@ -166,6 +182,7 @@ const ACTIONS = {
 	}
 
 signal change_ui
+signal change_hud
 
 slave var slave_action = 'Default'
 slave var slave_target_id = null
@@ -175,6 +192,7 @@ var target_ref = null
 var target = null
 
 onready var Chat = $'/root/Game/UI/Chat/'
+onready var HUD = $'../GUI'
 
 
 func target_is_player():
@@ -264,6 +282,8 @@ func start_action(action_name, new_target=null):
 		
 		if new_action.has('ui'):
 			emit_signal('change_ui', new_action['ui'])
+		if new_action.has('hud'):
+			emit_signal('change_hud', new_action['hud'])
 		
 		
 		action = new_action
@@ -491,6 +511,7 @@ func _ready():
 
 	if is_network_master():
 		connect('change_ui', Chat, 'change_ui')
+		connect('change_hud', HUD, 'change_hud')
 
 
 func _physics_process(delta):
