@@ -18,13 +18,6 @@ func _ready():
 	get_tree().connect('network_peer_connected', self, '_on_player_connected')
 
 
-func free_data():
-	
-	var players = { }
-	var self_data = { name = '', position = Vector2(), colors = {} }
-	var local_player_id = 1
-
-
 func create_server(player_nickname, port):
 	
 	self_data.name = player_nickname

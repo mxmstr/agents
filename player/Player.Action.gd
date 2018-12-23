@@ -8,6 +8,7 @@ const ACTIONS = {
 	'Default' : {
 		'priority' : -1,
 		'ui' : 'Default',
+		'collision' : true,
 		'animation' : 'Stand',
 		'can_interrupt' : false,
 		'reset_anim_finish' : false,
@@ -17,6 +18,7 @@ const ACTIONS = {
 	'MoveTo' : {
 		'priority' : 0,
 		'ui' : 'Default',
+		'collision' : true,
 		'animation' : 'Walk',
 		'can_interrupt' : true,
 		'reset_anim_finish' : false,
@@ -27,6 +29,7 @@ const ACTIONS = {
 	'RequestChat' : {
 		'priority' : 0,
 		'ui' : 'Default',
+		'collision' : true,
 		'animation' : 'Stand',
 		'can_interrupt' : true,
 		'reset_anim_finish' : false,
@@ -37,6 +40,7 @@ const ACTIONS = {
 	'WaitChat' : {
 		'priority' : 0,
 		'ui' : 'Default',
+		'collision' : true,
 		'animation' : 'ChatRequest',
 		'can_interrupt' : true,
 		'reset_anim_finish' : false,
@@ -46,6 +50,7 @@ const ACTIONS = {
 	'Chat' : {
 		'priority' : 1,
 		'ui' : 'Chat',
+		'collision' : true,
 		'animation' : 'Stand',
 		'can_interrupt' : false,
 		'reset_anim_finish' : true,
@@ -55,6 +60,7 @@ const ACTIONS = {
 	'RequestShoot' : {
 		'priority' : 2,
 		'ui' : 'Default',
+		'collision' : true,
 		'animation' : 'Stand',
 		'can_interrupt' : false,
 		'reset_anim_finish' : false,
@@ -65,6 +71,7 @@ const ACTIONS = {
 	'Shoot' : {
 		'priority' : 3,
 		'ui' : 'Default',
+		'collision' : true,
 		'animation' : 'Shoot',
 		'can_interrupt' : false,
 		'reset_anim_finish' : true,
@@ -73,6 +80,7 @@ const ACTIONS = {
 	'RequestGetShot' : {
 		'priority' : 2,
 		'ui' : 'Default',
+		'collision' : true,
 		'animation' : 'Stand',
 		'can_interrupt' : false,
 		'reset_anim_finish' : false,
@@ -82,6 +90,7 @@ const ACTIONS = {
 	'GetShot' : {
 		'priority' : 5,
 		'ui' : 'Default',
+		'collision' : false,
 		'animation' : 'Dead',
 		'can_interrupt' : false,
 		'reset_anim_finish' : false,
@@ -90,6 +99,7 @@ const ACTIONS = {
 	'RequestSleep' : {
 		'priority' : 2,
 		'ui' : 'Default',
+		'collision' : true,
 		'animation' : 'Stand',
 		'can_interrupt' : false,
 		'reset_anim_finish' : false,
@@ -100,6 +110,7 @@ const ACTIONS = {
 	'Sleep' : {
 		'priority' : 3,
 		'ui' : 'Default',
+		'collision' : true,
 		'animation' : 'Shoot',
 		'can_interrupt' : false,
 		'reset_anim_finish' : true,
@@ -108,6 +119,7 @@ const ACTIONS = {
 	'GetSlept' : {
 		'priority' : 5,
 		'ui' : 'Default',
+		'collision' : false,
 		'animation' : 'Sleep',
 		'can_interrupt' : false,
 		'reset_anim_finish' : true,
@@ -116,6 +128,7 @@ const ACTIONS = {
 	'RequestSearch' : {
 		'priority' : 2,
 		'ui' : 'Default',
+		'collision' : true,
 		'animation' : 'Default',
 		'can_interrupt' : false,
 		'reset_anim_finish' : false,
@@ -126,6 +139,7 @@ const ACTIONS = {
 	'Search' : {
 		'priority' : 3,
 		'ui' : 'Search',
+		'collision' : true,
 		'animation' : 'Search',
 		'can_interrupt' : false,
 		'reset_anim_finish' : true,
@@ -134,6 +148,7 @@ const ACTIONS = {
 	'Intel' : {
 		'priority' : 2,
 		'ui' : 'Intel',
+		'collision' : true,
 		'animation' : 'Intel',
 		'can_interrupt' : false,
 		'reset_anim_finish' : false,
@@ -142,6 +157,7 @@ const ACTIONS = {
 	'Victory' : {
 		'priority' : 4,
 		'ui' : 'Default',
+		'collision' : true,
 		'animation' : 'Stand',
 		'can_interrupt' : false,
 		'reset_anim_finish' : false,
@@ -241,6 +257,8 @@ func start_action(action_name, new_target=null):
 			rset('slave_target_id', null)
 		
 		
+		get_parent().set_collision(new_action['collision'])
+		get_parent().rpc('set_collision_remote', new_action['collision'])
 		get_parent().set_animation(new_action['animation'])
 		
 		

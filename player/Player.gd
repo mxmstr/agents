@@ -162,6 +162,16 @@ func set_sprite_prop(prop, value):
 	$Hat.set(prop, value)
 
 
+func set_collision(enabled):
+	
+	$CollisionShape2D.disabled = not enabled
+
+
+remote func set_collision_remote(enabled):
+	
+	set_collision(enabled)
+
+
 func set_animation(anim_name):
 	
 	set_sprite_prop('animation', anim_name)
