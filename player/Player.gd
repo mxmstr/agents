@@ -198,6 +198,8 @@ func on_action_button(action_name):
 
 func on_exit_button():
 	
+	get_tree().network_peer.close_connection()
+	get_tree().set_network_peer(null)
 	$'/root/Game'._on_server_disconnected()
 
 
