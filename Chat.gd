@@ -117,7 +117,7 @@ func _player_disconnected(id):
 
 func _connected_ok():
 	
-	display_message('You have joined the room')
+	#display_message('You have joined the room')
 	rpc('announce_user', Network.local_player_id)
 
 
@@ -160,7 +160,7 @@ sync func display_message(new_text):
 
 remote func announce_user(player):
 	
-	display_message(str(player) + ' has joined the room')
+	pass#display_message(str(player) + ' has joined the room')
 
 
 func _ready():
