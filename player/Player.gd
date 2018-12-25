@@ -15,14 +15,35 @@ const DEFAULT_COLORS = {
 	'Hat' : Color(0.18, 0.17, 0.16, 1),
 }
 const INPUT_BINDINGS = {
-	'chat' : 'RequestChat',
-	'end_chat' : 'Default',
-	'shoot' : 'RequestShoot',
-	'sleep' : 'RequestSleep',
-	'search' : 'RequestSearch',
+	'chat' : {
+		'action' : 'RequestChat',
+		'always_enabled' : false,
+		},
+	'end_chat' : {
+		'action' : 'Default',
+		'always_enabled' : false,
+		},
+	'shoot' : {
+		'action' : 'RequestShoot',
+		'always_enabled' : false,
+		},
+	'sleep' : {
+		'action' : 'RequestSleep',
+		'always_enabled' : false,
+		},
+	'search' : {
+		'action' : 'RequestSearch',
+		'always_enabled' : false,
+		},
 	#'hide_search' : 'Default',
-	'intel' : 'Intel',
-	'hide_intel' : 'Default',
+	'intel' : {
+		'action' : 'Intel',
+		'always_enabled' : false,
+		},
+	'hide_intel' : {
+		'action' : 'Default',
+		'always_enabled' : false,
+		},
 	}
 
 slave var slave_position = Vector2()
@@ -32,18 +53,20 @@ slave var slave_animation = 'Stand'
 
 var nickname = ''
 var health_points = MAX_HP
+var enable_abilities = true
 var colors = null
 var role = null
 var intel = []
 var bullets = 1
 var darts = 1
 
+onready var Chat = $'/root/Game/UI/Chat'
 onready var MessageInput = $'/root/Game/UI/Chat/ChatContainer/MessageContainer/Message_Input'
 onready var SearchTitle = $'/root/Game/UI/Chat/ChatContainer/SearchContainer/SearchTitle'
 onready var SearchInfo = $'/root/Game/UI/Chat/ChatContainer/SearchContainer/SearchInfo'
 onready var IntelDisplay = $'/root/Game/UI/Chat/ChatContainer/IntelDisplay'
 onready var ClickZone = $'/root/Game/UI/Chat/ClickZone'
-onready var ButtonExit = $'/root/Game/UI/Chat/ExitContainer/Exit'
+onready var ButtonExit = $'/root/Game/UI/Chat/Exit'
 onready var ButtonChat = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/Chat'
 onready var ButtonEndChat = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/EndChat'
 onready var ButtonShoot = $'/root/Game/UI/Chat/ChatContainer/ActionsContainer/Shoot'
@@ -68,9 +91,9 @@ func init(_nickname, start_position, _colors, _role, intel_component, intel_colo
 		$'/root/Game'.connect('victory_bad', self, 'victory_bad')
 		
 		if role == 'Traitor':
-			receive_message('You are the traitor. Eliminate all agents.')
+			Chat.set_objective('You are the traitor. Eliminate all agents.')
 		elif role == 'Agent':
-			receive_message('Find and eliminate the traitor.')
+			Chat.set_objective('Find and eliminate the traitor.')
 		
 		intel.append('The traitor has ' + intel_color + ' ' + intel_component + '.')
 		update_intel_display()
@@ -187,6 +210,11 @@ func set_animation(anim_name):
 	rset('slave_animation', anim_name)
 
 
+func set_enable_abilities(enable):
+	
+	enable_abilities = enable
+
+
 func slave_sync():
 	
 	if colors == null:
@@ -249,6 +277,8 @@ func _ready():
 	
 	if is_network_master():
 		MessageInput.connect('text_entered', self, 'send_message')
+		MessageInput.connect('focus_entered', self, 'set_enable_abilities', [false])
+		MessageInput.connect('focus_exited', self, 'set_enable_abilities', [true])
 		ClickZone.connect('button_down', self, 'on_action_button', ['MoveTo'])
 		ButtonExit.connect('button_down', self, 'on_exit_button')
 		ButtonChat.connect('button_down', self, 'on_action_button', ['RequestChat'])
@@ -264,9 +294,11 @@ func _ready():
 func _process(delta):
 	
 	if is_network_master():
+		
 		for ability in INPUT_BINDINGS:
 			if Input.is_action_just_pressed(ability):
-				if on_action_button(INPUT_BINDINGS[ability]):
+				if (enable_abilities or INPUT_BINDINGS[ability]['always_enabled']) \
+					and on_action_button(INPUT_BINDINGS[ability]['action']):
 					return
 
 #	print(get_global_mouse_position())

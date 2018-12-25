@@ -4,7 +4,7 @@ const UI_PRESETS = {
 	
 	'Default' : {
 		'visible' : [
-			'ExitContainer',
+			'Objective',
 			'Exit',
 			'ChatContainer',
 			'FeedContainer',
@@ -21,7 +21,7 @@ const UI_PRESETS = {
 	
 	'Chat' : {
 		'visible' : [
-			'ExitContainer',
+			'Objective',
 			'Exit',
 			'ChatContainer',
 			'FeedContainer',
@@ -39,7 +39,7 @@ const UI_PRESETS = {
 	
 	'Search' : {
 		'visible' : [
-			'ExitContainer',
+			'Objective',
 			'Exit',
 			'ChatContainer',
 			'SearchContainer',
@@ -59,7 +59,7 @@ const UI_PRESETS = {
 	
 	'Intel' : {
 		'visible' : [
-			'ExitContainer',
+			'Objective',
 			'Exit',
 			'IntelDisplay',
 			'ChatContainer',
@@ -77,7 +77,7 @@ const UI_PRESETS = {
 		
 	'VictoryGood' : {
 		'visible' : [
-			'ExitContainer',
+			'Objective',
 			'Exit',
 			'ChatContainer',
 			'VictoryGood',
@@ -88,7 +88,7 @@ const UI_PRESETS = {
 		
 	'VictoryBad' : {
 		'visible' : [
-			'ExitContainer',
+			'Objective',
 			'Exit',
 			'ChatContainer',
 			'VictoryBad',
@@ -117,7 +117,7 @@ func _player_disconnected(id):
 
 func _connected_ok():
 	
-	#display_message('You have joined the room')
+	display_message('You have joined the room')
 	rpc('announce_user', Network.local_player_id)
 
 
@@ -125,6 +125,24 @@ func _on_Message_Input_text_entered(new_text):
 	
 	Message_Input.text = ''
 	display_message('You : ' + new_text)
+
+
+func on_feed_timer():
+	
+	var lines = Feed.text.split('\n ')
+	
+	if len(lines) > 2:
+		$FeedTimer.start()
+	
+	#if len(lines) > 0:
+	Feed.text = ''
+	
+	lines.remove(0)
+	#if len(lines) == 1:
+	lines.remove(0)
+	
+	for line in lines:
+		Feed.text += '\n ' + line
 
 
 func apply_ui_preset(container):
@@ -142,6 +160,11 @@ func change_ui(new_ui):
 	apply_ui_preset(self)
 
 
+func set_objective(new_text):
+	
+	$Objective.text = new_text
+
+
 sync func display_message(new_text):
 	
 	Feed.text += '\n ' + new_text
@@ -150,22 +173,25 @@ sync func display_message(new_text):
 	
 	if len(lines) > 5:
 		Feed.text = ''
-		
+	
 		lines.remove(0)
 		lines.remove(0)
 		
 		for line in lines:
 			Feed.text += '\n ' + line
+	
+	$FeedTimer.start()
 
 
 remote func announce_user(player):
 	
-	pass#display_message(str(player) + ' has joined the room')
+	display_message(str(player) + ' has joined the room')
 
 
 func _ready():
 	
 	get_tree().connect("connected_to_server", self, "_connected_ok")
 	get_tree().connect("network_peer_disconnected", self, "_player_disconnected")
+	$FeedTimer.connect('timeout', self, 'on_feed_timer')
 	
 	change_ui('Default')
