@@ -4,35 +4,35 @@
 [ext_resource path="res://player/Player.Action.gd" type="Script" id=2]
 [ext_resource path="res://player/PlayerHat.tres" type="Material" id=3]
 [ext_resource path="res://images/detective search.png" type="Texture" id=4]
-[ext_resource path="res://images/detective shoot right.png" type="Texture" id=5]
-[ext_resource path="res://images/detective sleep 00.png" type="Texture" id=6]
-[ext_resource path="res://images/detective sleep 01.png" type="Texture" id=7]
-[ext_resource path="res://images/detective sleep 02.png" type="Texture" id=8]
-[ext_resource path="res://images/detective sleep 03.png" type="Texture" id=9]
-[ext_resource path="res://images/detective intel.png" type="Texture" id=10]
-[ext_resource path="res://images/detective chat request.png" type="Texture" id=11]
-[ext_resource path="res://images/detective stand right.png" type="Texture" id=12]
-[ext_resource path="res://images/detective dead.png" type="Texture" id=13]
-[ext_resource path="res://images/detective run right 00.png" type="Texture" id=14]
-[ext_resource path="res://images/detective run right 01.png" type="Texture" id=15]
-[ext_resource path="res://images/detective run right 02.png" type="Texture" id=16]
-[ext_resource path="res://images/detective run right 03.png" type="Texture" id=17]
-[ext_resource path="res://images/detective run right 04.png" type="Texture" id=18]
-[ext_resource path="res://images/detective run right 05.png" type="Texture" id=19]
-[ext_resource path="res://images/detective run right 06.png" type="Texture" id=20]
-[ext_resource path="res://images/detective run right 07.png" type="Texture" id=21]
-[ext_resource path="res://images/detective run right 08.png" type="Texture" id=22]
-[ext_resource path="res://images/detective run right 09.png" type="Texture" id=23]
-[ext_resource path="res://images/detective run right 10.png" type="Texture" id=24]
-[ext_resource path="res://images/detective run right 11.png" type="Texture" id=25]
-[ext_resource path="res://images/detective run right 12.png" type="Texture" id=26]
-[ext_resource path="res://images/detective run right 13.png" type="Texture" id=27]
-[ext_resource path="res://images/detective run right 14.png" type="Texture" id=28]
-[ext_resource path="res://images/detective run right 15.png" type="Texture" id=29]
-[ext_resource path="res://images/detective run right 16.png" type="Texture" id=30]
-[ext_resource path="res://images/detective run right 17.png" type="Texture" id=31]
-[ext_resource path="res://images/detective run right 18.png" type="Texture" id=32]
-[ext_resource path="res://images/detective run right 19.png" type="Texture" id=33]
+[ext_resource path="res://images/detective stand right.png" type="Texture" id=5]
+[ext_resource path="res://images/detective dead.png" type="Texture" id=6]
+[ext_resource path="res://images/detective run right 00.png" type="Texture" id=7]
+[ext_resource path="res://images/detective run right 01.png" type="Texture" id=8]
+[ext_resource path="res://images/detective run right 02.png" type="Texture" id=9]
+[ext_resource path="res://images/detective run right 03.png" type="Texture" id=10]
+[ext_resource path="res://images/detective run right 04.png" type="Texture" id=11]
+[ext_resource path="res://images/detective run right 05.png" type="Texture" id=12]
+[ext_resource path="res://images/detective run right 06.png" type="Texture" id=13]
+[ext_resource path="res://images/detective run right 07.png" type="Texture" id=14]
+[ext_resource path="res://images/detective run right 08.png" type="Texture" id=15]
+[ext_resource path="res://images/detective run right 09.png" type="Texture" id=16]
+[ext_resource path="res://images/detective run right 10.png" type="Texture" id=17]
+[ext_resource path="res://images/detective run right 11.png" type="Texture" id=18]
+[ext_resource path="res://images/detective run right 12.png" type="Texture" id=19]
+[ext_resource path="res://images/detective run right 13.png" type="Texture" id=20]
+[ext_resource path="res://images/detective run right 14.png" type="Texture" id=21]
+[ext_resource path="res://images/detective run right 15.png" type="Texture" id=22]
+[ext_resource path="res://images/detective run right 16.png" type="Texture" id=23]
+[ext_resource path="res://images/detective run right 17.png" type="Texture" id=24]
+[ext_resource path="res://images/detective run right 18.png" type="Texture" id=25]
+[ext_resource path="res://images/detective run right 19.png" type="Texture" id=26]
+[ext_resource path="res://images/detective chat request.png" type="Texture" id=27]
+[ext_resource path="res://images/detective intel.png" type="Texture" id=28]
+[ext_resource path="res://images/detective shoot right.png" type="Texture" id=29]
+[ext_resource path="res://images/detective sleep 00.png" type="Texture" id=30]
+[ext_resource path="res://images/detective sleep 01.png" type="Texture" id=31]
+[ext_resource path="res://images/detective sleep 02.png" type="Texture" id=32]
+[ext_resource path="res://images/detective sleep 03.png" type="Texture" id=33]
 [ext_resource path="res://player/PlayerFace.tres" type="Material" id=34]
 [ext_resource path="res://player/PlayerCoat.tres" type="Material" id=35]
 [ext_resource path="res://player/PlayerShoes.tres" type="Material" id=36]
@@ -49,42 +49,42 @@ animations = [ {
 "frames": [ ExtResource( 4 ), ExtResource( 4 ) ],
 "loop": false,
 "name": "Search",
-"speed": 0.5
+"speed": 0.4
 }, {
-"frames": [ ExtResource( 5 ), ExtResource( 5 ) ],
-"loop": false,
-"name": "Shoot",
-"speed": 1.0
-}, {
-"frames": [ ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ) ],
-"loop": false,
-"name": "Sleep",
-"speed": 0.1
-}, {
-"frames": [ ExtResource( 10 ) ],
-"loop": false,
-"name": "Intel",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 11 ) ],
-"loop": false,
-"name": "ChatRequest",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 12 ) ],
+"frames": [ ExtResource( 5 ) ],
 "loop": false,
 "name": "Stand",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 13 ) ],
+"frames": [ ExtResource( 6 ) ],
 "loop": false,
 "name": "Dead",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 21 ), ExtResource( 22 ), ExtResource( 23 ), ExtResource( 24 ), ExtResource( 25 ), ExtResource( 26 ), ExtResource( 27 ), ExtResource( 28 ), ExtResource( 29 ), ExtResource( 30 ), ExtResource( 31 ), ExtResource( 32 ), ExtResource( 33 ) ],
+"frames": [ ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 21 ), ExtResource( 22 ), ExtResource( 23 ), ExtResource( 24 ), ExtResource( 25 ), ExtResource( 26 ) ],
 "loop": true,
 "name": "Walk",
 "speed": 15.0
+}, {
+"frames": [ ExtResource( 27 ) ],
+"loop": false,
+"name": "ChatRequest",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 28 ) ],
+"loop": false,
+"name": "Intel",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 29 ), ExtResource( 29 ) ],
+"loop": false,
+"name": "Shoot",
+"speed": 1.0
+}, {
+"frames": [ ExtResource( 30 ), ExtResource( 31 ), ExtResource( 32 ), ExtResource( 33 ) ],
+"loop": false,
+"name": "Sleep",
+"speed": 0.1
 } ]
 
 [sub_resource type="CanvasItemMaterial" id=3]
@@ -93,7 +93,7 @@ render_priority = 0
 blend_mode = 0
 light_mode = 0
 
-[node name="Player" type="KinematicBody2D" groups=[
+[node name="Player" type="KinematicBody2D" index="0" groups=[
 "players",
 ]]
 

@@ -14,6 +14,16 @@ const DEFAULT_COLORS = {
 	'Face' : Color(0.68, 0.74, 0.77, 1),
 	'Hat' : Color(0.18, 0.17, 0.16, 1),
 }
+const INPUT_BINDINGS = {
+	'chat' : 'RequestChat',
+	'end_chat' : 'Default',
+	'shoot' : 'RequestShoot',
+	'sleep' : 'RequestSleep',
+	'search' : 'RequestSearch',
+	#'hide_search' : 'Default',
+	'intel' : 'Intel',
+	'hide_intel' : 'Default',
+	}
 
 slave var slave_position = Vector2()
 slave var slave_direction = Vector2(0, 0)
@@ -110,11 +120,12 @@ remote func request_player_inventory(sender_id, _role):
 			
 			bullets = 0
 			darts = 0
-			intel = []
 			
 			update_intel_display()
 		else:
-			sender.rpc('send_player_inventory', nickname, 0, 0, [])
+			sender.rpc('send_player_inventory', nickname, 0, 0, intel)
+		
+		intel = []
 
 
 remote func send_player_inventory(_nickname, _bullets, _darts, _intel):
@@ -191,7 +202,7 @@ func slave_sync():
 
 func on_action_button(action_name):
 	
-	$Action.start_action(action_name, null)
+	return $Action.start_action(action_name, null)
 
 
 func on_exit_button():
@@ -252,7 +263,11 @@ func _ready():
 
 func _process(delta):
 	
-	pass
+	if is_network_master():
+		for ability in INPUT_BINDINGS:
+			if Input.is_action_just_pressed(ability):
+				if on_action_button(INPUT_BINDINGS[ability]):
+					return
 
 #	print(get_global_mouse_position())
 #	var image = get_viewport().get_texture().get_data()

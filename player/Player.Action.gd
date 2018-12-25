@@ -258,7 +258,7 @@ func start_action(action_name, new_target=null):
 			if new_action.has('target_source'):
 				new_target = funcref(self, new_action['target_source']).call_func()
 				if new_target == null:
-					return
+					return false
 		
 		target = new_target
 		
@@ -289,6 +289,10 @@ func start_action(action_name, new_target=null):
 		
 		action = new_action
 		rset('slave_action', action_name)
+		
+		return true
+	
+	return false
 
 
 func exec_action():
