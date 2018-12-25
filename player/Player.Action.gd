@@ -441,14 +441,16 @@ func request_shoot():
 	var direction = target.global_position - get_parent().global_position
 	get_parent().set_sprite_prop('flip_h', direction.x < 0)
 	
-	target.get_node('Action').rpc('remote_start_action', 'RequestGetShot', int(get_parent().name))
-		
 	if get_parent().sprite_is_flipped():
 		get_parent().global_position = target.global_position + Vector2(INTERACT_RADIUS, 0)
 	else:
 		get_parent().global_position = target.global_position - Vector2(INTERACT_RADIUS, 0)
 	
+	target.get_node('Action').rpc('remote_start_action', 'RequestGetShot', int(get_parent().name))
+	start_action('Shoot', target)
+	
 	get_parent().bullets -= 1
+	get_parent().update_intel_display()
 	
 	return false
 
@@ -485,6 +487,7 @@ func request_sleep():
 	start_action('Sleep', target)
 	
 	get_parent().darts -= 1
+	get_parent().update_intel_display()
 	
 	return false
 

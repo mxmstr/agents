@@ -63,8 +63,7 @@ func init(_nickname, start_position, _colors, _role, intel_component, intel_colo
 			receive_message('Find and eliminate the traitor.')
 		
 		intel.append('The traitor has ' + intel_color + ' ' + intel_component + '.')
-		IntelDisplay.text = intel[0]
-		IntelDisplay.text += '\n You have ' + str(bullets) + ' bullets and ' + str(darts) + ' darts.'
+		update_intel_display()
 		
 		send_player_info(colors, role)
 	
@@ -112,7 +111,7 @@ remote func request_player_inventory(sender_id):
 		darts = 0
 		intel = []
 		
-		IntelDisplay.text = 'You have ' + str(bullets) + ' bullets and ' + str(darts) + ' darts.'
+		update_intel_display()
 
 
 remote func send_player_inventory(_nickname, _bullets, _darts, _intel):
@@ -128,14 +127,7 @@ remote func send_player_inventory(_nickname, _bullets, _darts, _intel):
 		for line in _intel:
 			intel.append(line)
 		
-		IntelDisplay.text = ''
-		for line in intel:
-			if IntelDisplay.text == '':
-				IntelDisplay.text += line
-			else:
-				IntelDisplay.text += '\n ' + line
-		
-		IntelDisplay.text += '\n You have ' + str(bullets) + ' bullets and ' + str(darts) + ' darts.'
+		update_intel_display()
 
 
 remote func set_colors(_colors):
@@ -207,6 +199,18 @@ func on_animation_finished():
 	
 	if is_network_master():
 		$Action.on_animation_finished()
+
+
+func update_intel_display():
+	
+	IntelDisplay.text = ''
+	for line in intel:
+		if IntelDisplay.text == '':
+			IntelDisplay.text += line
+		else:
+			IntelDisplay.text += '\n ' + line
+	
+	IntelDisplay.text += '\n You have ' + str(bullets) + ' bullets and ' + str(darts) + ' darts.'
 
 
 remote func receive_message(message):
