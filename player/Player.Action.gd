@@ -225,6 +225,7 @@ func on_animation_finished():
 
 func on_player_died():
 	
+	$'/root/Game'.player_has_died(get_parent().role)
 	$'/root/Game'.rpc('player_has_died', get_parent().role)
 
 
@@ -494,7 +495,7 @@ func request_sleep():
 
 func request_search():
 	
-	target.rpc('request_player_inventory', int(get_parent().name))
+	target.rpc('request_player_inventory', int(get_parent().name), get_parent().role)
 	start_action('Search', target)
 	
 	return false

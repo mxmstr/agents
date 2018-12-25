@@ -100,26 +100,32 @@ remote func send_player_info(_colors, _role):
 		get_node(component).material.set_shader_param('output_color', COLORS[color_name])
 
 
-remote func request_player_inventory(sender_id):
+remote func request_player_inventory(sender_id, _role):
 	
 	if is_network_master():
-		get_node('/root/Game/Players/' + str(sender_id)).rpc(
-			'send_player_inventory', nickname, bullets, darts, intel
-			)
+		var sender = get_node('/root/Game/Players/' + str(sender_id))
 		
-		bullets = 0
-		darts = 0
-		intel = []
-		
-		update_intel_display()
+		if _role == 'Traitor':
+			sender.rpc('send_player_inventory', nickname, bullets, darts, intel)
+			
+			bullets = 0
+			darts = 0
+			intel = []
+			
+			update_intel_display()
+		else:
+			sender.rpc('send_player_inventory', nickname, 0, 0, [])
 
 
 remote func send_player_inventory(_nickname, _bullets, _darts, _intel):
 	
 	if is_network_master():
-	
+		
 		SearchTitle.text = _nickname + "'s Inventory"
-		SearchInfo.text = str(_bullets) + ' Bullets ' + str(_darts) + ' Darts ' + str(len(_intel)) + ' Intel Confiscated'
+		if role == 'Traitor':
+			SearchInfo.text = str(_bullets) + ' Bullets ' + str(_darts) + ' Darts ' + str(len(_intel)) + ' Intel Confiscated'
+		else:
+			SearchInfo.text = str(len(_intel)) + ' Intel Confiscated'
 		
 		bullets += _bullets
 		darts += _darts
