@@ -138,7 +138,7 @@ const ACTIONS = {
 		},
 		
 	'RequestSearch' : {
-		'priority' : 2,
+		'priority' : 1,
 		'ui' : 'Default',
 		'hud' : 'Default',
 		'collision' : true,
