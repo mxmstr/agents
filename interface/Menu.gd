@@ -34,9 +34,15 @@ func _on_CreateButton_pressed():
 	if _player_name == "":
 		return
 	
-	Network.create_server(_player_name, _port)
-	_save_config()
-	_load_game()
+	var error = Network.create_server(_player_name, _port)
+	
+	if error == OK:
+		_save_config()
+		_load_game()
+	elif error == ERR_ALREADY_IN_USE:
+		$'VBoxContainer/Error'.text = 'ERR_ALREADY_IN_USE'
+	elif error == ERR_CANT_CREATE:
+		$'VBoxContainer/Error'.text = 'ERR_CANT_CREATE'
 
 
 func _on_JoinButton_pressed():
@@ -44,9 +50,16 @@ func _on_JoinButton_pressed():
 	if _player_name == "":
 		return
 		
-	Network.connect_to_server(_player_name, _ip, _port)
-	_save_config()
-	_load_game()
+	var error = Network.connect_to_server(_player_name, _ip, _port)
+	
+	print(error)
+	if error == OK:
+		_save_config()
+		_load_game()
+	elif error == ERR_ALREADY_IN_USE:
+		$'VBoxContainer/Error'.text = 'ERR_ALREADY_IN_USE'
+	elif error == ERR_CANT_CREATE:
+		$'VBoxContainer/Error'.text = 'ERR_CANT_CREATE'
 
 
 func _save_config():

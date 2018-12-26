@@ -24,9 +24,12 @@ func create_server(player_nickname, port):
 	players[1] = self_data
 	
 	var peer = NetworkedMultiplayerENet.new()
-	peer.create_server(port, MAX_PLAYERS)
+	var error = peer.create_server(port, MAX_PLAYERS)
 	
-	get_tree().set_network_peer(peer)
+	if error == OK:
+		get_tree().set_network_peer(peer)
+		
+	return error
 
 
 func connect_to_server(player_nickname, ip, port):
@@ -36,9 +39,12 @@ func connect_to_server(player_nickname, ip, port):
 	get_tree().connect('connected_to_server', self, '_connected_to_server')
 	
 	var peer = NetworkedMultiplayerENet.new()
-	peer.create_client(ip, port)
+	var error = peer.create_client(ip, port)
 	
-	get_tree().set_network_peer(peer)
+	if error == OK:
+		get_tree().set_network_peer(peer)
+		
+	return error
 
 
 func _connected_to_server():
