@@ -85,7 +85,7 @@ const ACTIONS = {
 		},
 	
 	'RequestGetShot' : {
-		'priority' : 2,
+		'priority' : 3,
 		'ui' : 'Default',
 		'hud' : 'Default',
 		'collision' : true,
@@ -150,7 +150,7 @@ const ACTIONS = {
 		},
 		
 	'Search' : {
-		'priority' : 3,
+		'priority' : 2,
 		'ui' : 'Search',
 		'hud' : 'Default',
 		'collision' : true,
