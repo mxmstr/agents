@@ -11,12 +11,12 @@ config_version=3
 [application]
 
 config/name="Agents"
-run/main_scene="res://interface/Menu.tscn"
+run/main_scene="res://scenes/Menu.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
-Network="*res://Network.gd"
+Network="*res://scripts/Network.gd"
 
 [display]
 
