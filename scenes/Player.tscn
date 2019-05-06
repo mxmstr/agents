@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://scripts/Player.Action.gd" type="Script" id=2]
@@ -23,6 +23,8 @@
 [ext_resource path="res://animations/Stand.tres" type="Animation" id=21]
 [ext_resource path="res://animations/Walk.tres" type="Animation" id=22]
 [ext_resource path="res://scenes/HUD.tscn" type="PackedScene" id=23]
+[ext_resource path="res://scenes/FX.Emitter.tscn" type="PackedScene" id=24]
+[ext_resource path="res://scenes/FX.Sleep.tscn" type="PackedScene" id=25]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -58,7 +60,7 @@ self_modulate = Color( 0, 0, 0, 1 )
 texture = ExtResource( 3 )
 vframes = 7
 hframes = 6
-frame = 10
+frame = 37
 region_rect = Rect2( 0, 0, 55, 55 )
 script = ExtResource( 4 )
 _sections_unfolded = [ "Animation", "Offset", "Region", "Visibility" ]
@@ -72,7 +74,7 @@ yellow = Color( 0.316406, 0.316406, 0, 1 )
 texture = ExtResource( 5 )
 vframes = 7
 hframes = 6
-frame = 10
+frame = 37
 region_rect = Rect2( 0, 0, 55, 55 )
 script = ExtResource( 4 )
 _sections_unfolded = [ "Animation", "Offset", "Region", "Visibility" ]
@@ -86,7 +88,7 @@ yellow = Color( 1, 1, 0.644531, 1 )
 texture = ExtResource( 6 )
 vframes = 7
 hframes = 6
-frame = 10
+frame = 37
 region_rect = Rect2( 0, 0, 55, 55 )
 script = ExtResource( 4 )
 _sections_unfolded = [ "Animation", "Material", "Offset", "Region", "Visibility" ]
@@ -101,7 +103,7 @@ self_modulate = Color( 0, 0, 0, 1 )
 texture = ExtResource( 7 )
 vframes = 7
 hframes = 6
-frame = 10
+frame = 37
 region_rect = Rect2( 0, 0, 55, 55 )
 script = ExtResource( 4 )
 _sections_unfolded = [ "Animation", "Material", "Offset", "Region", "Visibility" ]
@@ -116,7 +118,7 @@ self_modulate = Color( 0.171875, 0.171875, 0.171875, 1 )
 texture = ExtResource( 8 )
 vframes = 7
 hframes = 6
-frame = 10
+frame = 37
 region_rect = Rect2( 0, 0, 55, 55 )
 script = ExtResource( 4 )
 _sections_unfolded = [ "Animation", "Material", "Offset", "Region", "Visibility" ]
@@ -130,7 +132,7 @@ yellow = Color( 0.308594, 0.308594, 0, 1 )
 texture = ExtResource( 9 )
 vframes = 7
 hframes = 6
-frame = 10
+frame = 37
 region_rect = Rect2( 0, 0, 55, 55 )
 script = ExtResource( 4 )
 _sections_unfolded = [ "Animation", "Offset", "Region", "Visibility" ]
@@ -145,7 +147,7 @@ self_modulate = Color( 0, 0, 0, 1 )
 texture = ExtResource( 10 )
 vframes = 7
 hframes = 6
-frame = 10
+frame = 37
 region_rect = Rect2( 0, 0, 55, 55 )
 script = ExtResource( 4 )
 _sections_unfolded = [ "Animation", "Offset", "Region", "Visibility" ]
@@ -160,14 +162,14 @@ self_modulate = Color( 0, 0, 0, 1 )
 texture = ExtResource( 11 )
 vframes = 7
 hframes = 6
-frame = 10
+frame = 37
 region_rect = Rect2( 0, 0, 55, 55 )
 script = ExtResource( 4 )
 _sections_unfolded = [ "Animation", "Offset", "Region", "Visibility" ]
 red = Color( 0.433594, 0, 0, 1 )
 green = Color( 0, 0.402344, 0, 1 )
 blue = Color( 0.421875, 0.421875, 1, 1 )
-yellow = Color( 0.394531, 0.394531, 0, 1 )
+yellow = Color( 0.894531, 0.894531, 0, 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="10"]
 
@@ -195,6 +197,18 @@ margin_left = -78.0
 margin_top = -157.0
 margin_right = 78.0
 margin_bottom = 85.0
+
+[node name="SleepL" parent="." index="12" instance=ExtResource( 24 )]
+
+position = Vector2( -20.7678, 3.4399 )
+effect = ExtResource( 25 )
+frequency = 2.0
+
+[node name="SleepR" parent="." index="13" instance=ExtResource( 24 )]
+
+position = Vector2( 18.1362, 3.22758 )
+effect = ExtResource( 25 )
+frequency = 2.0
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_finished"]
 

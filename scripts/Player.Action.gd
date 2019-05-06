@@ -524,6 +524,20 @@ func _request_sleep():
 	return false
 
 
+func _sleep_start_fx():
+	
+	if get_parent()._sprite_is_flipped():
+		$'../SleepR'._start()
+	else:
+		$'../SleepL'._start()
+
+
+func _sleep_stop_fx():
+	
+	$'../SleepR'._stop()
+	$'../SleepL'._stop()
+
+
 func _request_search():
 	
 	target.rpc('_request_player_inventory', int(get_parent().name), get_parent().role)
@@ -532,7 +546,7 @@ func _request_search():
 	return false
 
 
-func search():
+func _search():
 	
 	if not _target_is_player() \
 		or not (_target_has_action('GetSlept') or _target_has_action('GetShot')) \

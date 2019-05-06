@@ -3,7 +3,7 @@
 [resource]
 
 resource_name = "Sleep"
-length = 10.0
+length = 20.0
 loop = false
 step = 0.1
 tracks/0/type = "value"
@@ -13,7 +13,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.4, 9, 9.1, 9.8 ),
+"times": PoolRealArray( 0, 0.4, 19, 19.1, 19.8 ),
 "transitions": PoolRealArray( 1, 0, 0, 1, 1 ),
 "update": 0,
 "values": [ 18, 21, 21, 36, 38 ]
@@ -25,7 +25,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.4, 9, 9.1, 9.8 ),
+"times": PoolRealArray( 0, 0.4, 19, 19.1, 19.8 ),
 "transitions": PoolRealArray( 1, 0, 0, 1, 1 ),
 "update": 0,
 "values": [ 18, 21, 21, 36, 38 ]
@@ -37,7 +37,7 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.4, 9, 9.1, 9.8 ),
+"times": PoolRealArray( 0, 0.4, 19, 19.1, 19.8 ),
 "transitions": PoolRealArray( 1, 0, 0, 1, 1 ),
 "update": 0,
 "values": [ 18, 21, 21, 36, 38 ]
@@ -49,7 +49,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 0.4, 9, 9.1, 9.8 ),
+"times": PoolRealArray( 0, 0.4, 19, 19.1, 19.8 ),
 "transitions": PoolRealArray( 1, 0, 0, 1, 1 ),
 "update": 0,
 "values": [ 18, 21, 21, 36, 38 ]
@@ -61,7 +61,7 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0, 0.4, 9, 9.1, 9.8 ),
+"times": PoolRealArray( 0, 0.4, 19, 19.1, 19.8 ),
 "transitions": PoolRealArray( 1, 0, 0, 1, 1 ),
 "update": 0,
 "values": [ 18, 21, 21, 36, 38 ]
@@ -73,7 +73,7 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0, 0.4, 9, 9.1, 9.8 ),
+"times": PoolRealArray( 0, 0.4, 19, 19.1, 19.8 ),
 "transitions": PoolRealArray( 1, 0, 0, 1, 1 ),
 "update": 0,
 "values": [ 18, 21, 21, 36, 38 ]
@@ -85,7 +85,7 @@ tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 0, 0.4, 9, 9.1, 9.8 ),
+"times": PoolRealArray( 0, 0.4, 19, 19.1, 19.8 ),
 "transitions": PoolRealArray( 1, 0, 0, 1, 1 ),
 "update": 0,
 "values": [ 18, 21, 21, 36, 38 ]
@@ -97,9 +97,50 @@ tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"times": PoolRealArray( 0, 0.4, 9, 9.1, 9.8 ),
+"times": PoolRealArray( 0, 0.4, 19, 19.1, 19.8 ),
 "transitions": PoolRealArray( 1, 0, 0, 1, 1 ),
 "update": 0,
 "values": [ 18, 21, 21, 36, 38 ]
+}
+tracks/8/type = "method"
+tracks/8/path = NodePath("Action")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0.4, 19 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [  ],
+"method": "_sleep_start_fx"
+}, {
+"args": [  ],
+"method": "_sleep_stop_fx"
+} ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("SleepL:frequency")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0.4, 19 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.5, 2.0 ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("SleepR:frequency")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0.4, 19 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.5, 2.0 ]
 }
 
