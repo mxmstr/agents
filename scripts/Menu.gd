@@ -15,6 +15,8 @@ export(NodePath) var Error
 
 func _ready():
 	
+#	var addrs = str(IP.get_local_addresses()).replace(',', '\n')
+#	get_node(Error).text = addrs
 	#Network.connect('server_info_posted', self, '_on_server_info_posted')
 	
 	_load_config()

@@ -63,7 +63,7 @@ _sections_unfolded = [ "Extra Spacing", "Font", "Settings" ]
 
 [sub_resource type="DynamicFont" id=4]
 
-size = 45
+size = 35
 use_mipmaps = false
 use_filter = true
 font_data = ExtResource( 4 )
@@ -174,7 +174,7 @@ use_filter = true
 font_data = ExtResource( 3 )
 _sections_unfolded = [ "Font", "Settings" ]
 
-[node name="Menu" type="Control"]
+[node name="Menu" type="Control" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -309,7 +309,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 192.0
 margin_right = 670.0
-margin_bottom = 442.0
+margin_bottom = 432.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -343,9 +343,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 1.0
-margin_right = 200.0
-margin_bottom = 47.0
+margin_top = 6.0
+margin_right = 161.0
+margin_bottom = 42.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -369,7 +369,7 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 220.0
+margin_left = 181.0
 margin_right = 670.0
 margin_bottom = 48.0
 rect_pivot_offset = Vector2( 0, 0 )
@@ -676,7 +676,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 204.0
 margin_right = 670.0
-margin_bottom = 250.0
+margin_bottom = 240.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -695,27 +695,27 @@ _sections_unfolded = [ "Size Flags", "custom_colors", "custom_fonts", "custom_st
 
 [connection signal="text_changed" from="MarginContainer/VBoxContainer/VBoxContainer/Name/Name" to="." method="_on_Name_text_changed"]
 
-[connection signal="button_up" from="MarginContainer/VBoxContainer/VBoxContainer/Buttons/Create" to="MarginContainer/VBoxContainer/VBoxContainer/CreateInfo" method="set_visible" binds= [ true ]]
-
 [connection signal="button_up" from="MarginContainer/VBoxContainer/VBoxContainer/Buttons/Create" to="." method="_on_Create_button_down"]
+
+[connection signal="button_up" from="MarginContainer/VBoxContainer/VBoxContainer/Buttons/Create" to="MarginContainer/VBoxContainer/VBoxContainer/CreateInfo/Port" method="set_visible" binds= [ true ]]
+
+[connection signal="button_up" from="MarginContainer/VBoxContainer/VBoxContainer/Buttons/Create" to="MarginContainer/VBoxContainer/VBoxContainer/CreateInfo" method="set_visible" binds= [ true ]]
 
 [connection signal="button_up" from="MarginContainer/VBoxContainer/VBoxContainer/Buttons/Create" to="MarginContainer/VBoxContainer/VBoxContainer/CreateInfo/ServerName" method="set_visible" binds= [ true ]]
 
 [connection signal="button_up" from="MarginContainer/VBoxContainer/VBoxContainer/Buttons/Create" to="MarginContainer/VBoxContainer/VBoxContainer/CreateInfo/IP" method="set_visible" binds= [ false ]]
 
-[connection signal="button_up" from="MarginContainer/VBoxContainer/VBoxContainer/Buttons/Create" to="MarginContainer/VBoxContainer/VBoxContainer/CreateInfo/Port" method="set_visible" binds= [ true ]]
-
 [connection signal="button_up" from="MarginContainer/VBoxContainer/VBoxContainer/Buttons/Create" to="MarginContainer/VBoxContainer/VBoxContainer/Confirm" method="set_visible" binds= [ true ]]
 
-[connection signal="button_up" from="MarginContainer/VBoxContainer/VBoxContainer/Buttons/Join" to="MarginContainer/VBoxContainer/VBoxContainer/CreateInfo" method="set_visible" binds= [ true ]]
-
 [connection signal="button_up" from="MarginContainer/VBoxContainer/VBoxContainer/Buttons/Join" to="." method="_on_Join_button_down"]
+
+[connection signal="button_up" from="MarginContainer/VBoxContainer/VBoxContainer/Buttons/Join" to="MarginContainer/VBoxContainer/VBoxContainer/CreateInfo/Port" method="set_visible" binds= [ true ]]
+
+[connection signal="button_up" from="MarginContainer/VBoxContainer/VBoxContainer/Buttons/Join" to="MarginContainer/VBoxContainer/VBoxContainer/CreateInfo" method="set_visible" binds= [ true ]]
 
 [connection signal="button_up" from="MarginContainer/VBoxContainer/VBoxContainer/Buttons/Join" to="MarginContainer/VBoxContainer/VBoxContainer/CreateInfo/ServerName" method="set_visible" binds= [ false ]]
 
 [connection signal="button_up" from="MarginContainer/VBoxContainer/VBoxContainer/Buttons/Join" to="MarginContainer/VBoxContainer/VBoxContainer/CreateInfo/IP" method="set_visible" binds= [ true ]]
-
-[connection signal="button_up" from="MarginContainer/VBoxContainer/VBoxContainer/Buttons/Join" to="MarginContainer/VBoxContainer/VBoxContainer/CreateInfo/Port" method="set_visible" binds= [ true ]]
 
 [connection signal="button_up" from="MarginContainer/VBoxContainer/VBoxContainer/Buttons/Join" to="MarginContainer/VBoxContainer/VBoxContainer/Confirm" method="set_visible" binds= [ true ]]
 

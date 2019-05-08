@@ -98,7 +98,7 @@ anti_aliasing = true
 anti_aliasing_size = 1
 _sections_unfolded = [ "Border", "Border Width", "Corner Radius", "Expand Margin", "Shadow" ]
 
-[node name="Chat" type="Node"]
+[node name="Chat" type="Node" index="0"]
 
 script = ExtResource( 1 )
 
@@ -427,7 +427,7 @@ custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_x = 1
 custom_constants/shadow_offset_y = 1
 custom_constants/shadow_as_outline = 1
-text = "Objective"
+text = "Waiting for server..."
 align = 1
 valign = 1
 clip_text = true

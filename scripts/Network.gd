@@ -23,7 +23,27 @@ signal server_disconnected
 
 func _ready():
 	
-	ip = IP.get_local_addresses()[3]
+	#print(IP.get_local_addresses())
+	
+	
+	var addrs = IP.get_local_addresses()
+
+	for addr in addrs:
+#		if addr.begins_with('100.'):
+#			ip = addrs[addrs.find(addr) + 3]
+#			break
+		if addr.begins_with('192.'):
+			ip = addr#addrs[addrs.find(addr) + 2]
+			break
+		
+#	var addrs = IP.get_local_addresses().duplicate()
+#	print(addrs)
+#	addrs.pop_front()
+#
+#	for addr in addrs:
+#		if len(addr.split('.')) == 4:
+#			ip = addr
+#			break
 	
 	var get_request = HTTPRequest.new()
 	get_request.name = 'HostListRequest'
@@ -56,6 +76,7 @@ func _post_game_info():
 	
 	var headers = ["Content-Type: application/json"]
 	var query = JSON.print({
+		'action': 'update',
 		'ip': ip,
 		'server_name': server_name,
 		'port': port,
@@ -66,9 +87,24 @@ func _post_game_info():
 	print('post')
 
 
+func _post_game_ended():
+	
+	var headers = ["Content-Type: application/json"]
+	var query = JSON.print({
+		'action': 'delete',
+		'ip': ip,
+		'server_name': server_name,
+		'port': port,
+		'clients': clients
+		})
+	
+	$PostServerRequest.request(Network.MASTER_SERVER, headers, true, HTTPClient.METHOD_POST, query)
+	print('end')
+
+
 func _on_post_game_info(result, response_code, headers, body):
 	
-	#print([result, response_code, headers, body])
+	#print([result, response_code, str(headers), body])
 	
 	if response_code == 200:
 		
@@ -158,6 +194,7 @@ func _on_player_connected(connected_player_id):
 func _on_server_disconnected():
 	
 	print('stop')
+	_post_game_ended()
 	$QueryTimer.stop()
 	$JoinTimer.stop()
 

@@ -543,6 +543,8 @@ func _request_search():
 	target.rpc('_request_player_inventory', int(get_parent().name), get_parent().role)
 	_start_action('Search', target)
 	
+	_snap_to_target()
+	
 	return false
 
 
