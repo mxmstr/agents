@@ -31,7 +31,7 @@
 custom_solver_bias = 0.0
 extents = Vector2( 27.9945, 43 )
 
-[node name="Player" type="KinematicBody2D" index="0" groups=[
+[node name="Player" type="KinematicBody2D" groups=[
 "players",
 ]]
 
@@ -81,7 +81,7 @@ _sections_unfolded = [ "Animation", "Offset", "Region", "Visibility" ]
 red = Color( 1, 0.46875, 0.46875, 1 )
 green = Color( 0.652344, 1, 0.652344, 1 )
 blue = Color( 0.632813, 0.632813, 1, 1 )
-yellow = Color( 1, 1, 0.644531, 1 )
+yellow = Color( 0.863281, 0.863281, 0.198959, 1 )
 
 [node name="Item" type="Sprite" parent="." index="4"]
 

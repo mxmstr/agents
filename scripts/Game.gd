@@ -1,10 +1,10 @@
 extends Node
 
 const SPAWN_POSITIONS = [
-	Vector2(300, 30),
-	Vector2(500, 210),
-	Vector2(350, 490),
-	Vector2(60, 460),
+	Vector2(500, 200),
+	Vector2(250, 1000),
+	Vector2(-450, 600),
+	Vector2(1100, 600),
 ]
 const ROLES = ['Traitor', 'Agent', 'Agent', 'Agent']
 const COLORS = ['Red', 'Green', 'Blue', 'Yellow']
@@ -39,6 +39,14 @@ func _ready():
 	
 	else:
 		emit_signal('error', 'Waiting for server...')
+
+
+func _adjust_to_virtual_keyboard():
+	
+	var height = -1 * OS.get_virtual_keyboard_height()# + $MarginContainer.get('custom_constants/margin_bottom')
+	
+	$UI.offset.y = min(height, 0)
+	$World.offset.y = min(height, 0)
 
 
 func _randomize_colors():
@@ -176,3 +184,8 @@ remote func _send_player_info(count, colors, t_colors, roles):
 	player_roles = roles
 	
 	_spawn_player()
+
+
+func _process(delta):
+	
+	_adjust_to_virtual_keyboard()

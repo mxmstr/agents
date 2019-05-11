@@ -309,6 +309,7 @@ func _process(delta):
 func _physics_process(delta):
 	
 	if is_network_master():
+		
 		_viewport_follow_player()
 		
 		rset_unreliable('slave_position', position)

@@ -23,7 +23,7 @@ signal server_disconnected
 
 func _ready():
 	
-	#print(IP.get_local_addresses())
+	print(IP.get_local_addresses())
 	
 	
 	var addrs = IP.get_local_addresses()
@@ -33,6 +33,12 @@ func _ready():
 #			ip = addrs[addrs.find(addr) + 3]
 #			break
 		if addr.begins_with('192.'):
+			ip = addr#addrs[addrs.find(addr) + 2]
+			break
+		if addr.begins_with('172.'):
+			ip = addr#addrs[addrs.find(addr) + 2]
+			break
+		if addr.begins_with('10.'):
 			ip = addr#addrs[addrs.find(addr) + 2]
 			break
 		

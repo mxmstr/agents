@@ -312,6 +312,8 @@ func _start_action(action_name, new_target=null):
 		if new_action.has('hud'):
 			emit_signal('change_hud', new_action['hud'])
 		
+		Chat.MessageInput.release_focus()
+		OS.hide_virtual_keyboard()
 		
 		action = new_action
 		rset('slave_action', action_name)
@@ -359,7 +361,7 @@ func _get_mouse_pos():
 
 func _target_in_range(max_dist):
 	
-	var dist = get_parent().global_position.distance_to(target.global_position)
+	var dist = get_parent().position.distance_to(target.position)
 	
 	return dist < max_dist
 
@@ -374,7 +376,7 @@ func _get_closest_target(max_dist, include_actions=[], exclude_actions=[]):
 			continue
 		
 		var player_action = player.get_node('Action').slave_action
-		var player_dist = player.global_position.distance_to(get_parent().global_position)
+		var player_dist = player.position.distance_to(get_parent().position)
 		var has_included_actions = len(include_actions) == 0 or player_action in include_actions
 		var has_excluded_actions = player_action in exclude_actions
 		
@@ -384,7 +386,7 @@ func _get_closest_target(max_dist, include_actions=[], exclude_actions=[]):
 				closest = player
 				continue
 			
-			var closest_dist = closest.global_position.distance_to(get_parent().global_position)
+			var closest_dist = closest.position.distance_to(get_parent().position)
 				
 			if player_dist < closest_dist:
 				closest = player
@@ -413,14 +415,14 @@ func _get_closest_searchable_target():
 func _snap_to_target():
 	
 	if get_parent()._sprite_is_flipped():
-		get_parent().global_position = target.global_position + Vector2(SNAP_TO_TARGET_RADIUS, 0)
+		get_parent().position = target.position + Vector2(SNAP_TO_TARGET_RADIUS, 0)
 	else:
-		get_parent().global_position = target.global_position - Vector2(SNAP_TO_TARGET_RADIUS, 0)
+		get_parent().position = target.position - Vector2(SNAP_TO_TARGET_RADIUS, 0)
 
 
 func _move_to():
 	
-	var direction = target - get_parent().global_position
+	var direction = target - get_parent().position
 	
 	get_parent().rset('slave_direction', direction)
 	
@@ -446,7 +448,7 @@ func _request_chat():
 
 func _wait_chat():
 	
-	var direction = target.global_position - get_parent().global_position
+	var direction = target.position - get_parent().position
 	get_parent()._set_sprite_prop('flip_h', direction.x < 0)
 	
 	if _target_is_player() and _target_has_action('WaitChat') and _target_interacting_with_me():
@@ -476,7 +478,7 @@ func _request_shoot():
 	if get_parent().bullets == 0 or not _target_in_range(MAX_SHOOT_RADIUS):
 		return true
 	
-	var direction = target.global_position - get_parent().global_position
+	var direction = target.position - get_parent().position
 	get_parent()._set_sprite_prop('flip_h', direction.x < 0)
 	
 	_snap_to_target()
@@ -494,7 +496,7 @@ func _request_get_shot():
 	
 	var shooter = get_node('../../' + str(target))
 	
-	var direction = shooter.global_position - get_parent().global_position
+	var direction = shooter.position - get_parent().position
 	get_parent()._set_sprite_prop('flip_h', direction.x < 0)
 	
 	_start_timer(1.0, '_on_player_died')
@@ -510,7 +512,7 @@ func _request_sleep():
 	if get_parent().darts == 0 or not _target_in_range(MAX_SHOOT_RADIUS):
 		return true
 	
-	var direction = target.global_position - get_parent().global_position
+	var direction = target.position - get_parent().position
 	get_parent()._set_sprite_prop('flip_h', direction.x < 0)
 	
 	_snap_to_target()
