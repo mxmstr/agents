@@ -162,10 +162,10 @@ func _on_clients_updated(clients):
 	Error.text = 'Waiting for players... (' + str(clients) + '/4)'
 
 
-func _player_connected(id):
+remote func _player_connected(id):
 	
-	if id != get_tree().get_network_unique_id():
-		_display_message($'/root/Game/World'.get_node(str(id)).nickname + ' has joined')
+	#if id != get_tree().get_network_unique_id():
+	_display_message($'/root/Game/World'.get_node(str(id)).nickname + ' has joined')
 
 
 func _player_disconnected(id):
@@ -177,7 +177,7 @@ func _player_disconnected(id):
 func _connected_ok():
 	
 	_display_message('You have joined the room')
-	rpc('announce_user', Network.local_player_id)
+	#rpc('_announce_user', Network.local_player_id)
 
 
 func _on_Message_Input_text_entered(new_text):
@@ -242,9 +242,11 @@ sync func _display_message(new_text):
 	$FeedTimer.start()
 
 
-remote func _announce_user(player):
+func _announce_user(id):
 	
-	_display_message(str(player) + ' has joined the room')
+	_player_connected(id)
+	rpc('_player_connected', id)
+	#_display_message(str(player) + ' has joined the room')
 
 
 func _ready():

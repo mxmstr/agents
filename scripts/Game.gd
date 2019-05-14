@@ -124,7 +124,6 @@ func _spawn_player():
 	new_player.name = str(get_tree().get_network_unique_id())
 	new_player.set_network_master(get_tree().get_network_unique_id())
 	$World.add_child(new_player)
-	$UI/Chat._player_connected(get_tree().get_network_unique_id())
 	
 	new_player.init(
 		false,
@@ -135,6 +134,8 @@ func _spawn_player():
 		traitor_colors.keys()[player_count],
 		traitor_colors.values()[player_count]
 		)
+		
+	$UI/Chat._announce_user(get_tree().get_network_unique_id())
 
 
 func _spawn_slave(id, player_name):
