@@ -19,6 +19,17 @@ const ACTIONS = {
 		'reset_anim_finish' : false,
 		},
 	
+	'WaitForStart' : {
+		'priority' : 0,
+		'ui' : 'WaitForStart',
+		'hud' : 'Default',
+		'collision' : true,
+		'animation' : 'Stand',
+		'can_interrupt' : false,
+		'reset_anim_finish' : false,
+		'action' : '_wait_for_start',
+		},
+	
 	'MoveTo' : {
 		'priority' : 0,
 		'ui' : 'Default',
@@ -412,6 +423,11 @@ func _get_closest_searchable_target():
 ################# Actions
 
 
+func _wait_for_start():
+	
+	return Network._server_is_full()
+
+
 func _snap_to_target():
 	
 	if get_parent()._sprite_is_flipped():
@@ -564,9 +580,10 @@ func _ready():
 	
 	if is_network_master():
 		
-		_start_action('Default')
 		connect('change_ui', Chat, '_change_ui')
 		connect('change_hud', HUD, '_change_hud')
+		
+		_start_action('WaitForStart')
 
 
 func _physics_process(delta):

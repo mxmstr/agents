@@ -22,10 +22,11 @@ const UI_PRESETS = {
 			],
 		},
 	
-	'Connection' : {
+	'WaitForStart' : {
 		'visible' : [
 			'UIContainer',
 			'TopBar',
+			'Objective',
 			'Exit',
 			'Announcements',
 			'Error'
@@ -133,12 +134,17 @@ const UI_PRESETS = {
 	
 	}
 
-var preset = 'Default'
+var preset = UI_PRESETS['Default']
 
 onready var Objective = find_node('Objective')
 onready var Error = find_node('Error')
 onready var Feed = find_node('Feed')
 onready var MessageInput = find_node('MessageInput')
+
+
+func _on_clients_updated(clients):
+	
+	Error.text = 'Waiting for players... (' + str(clients) + '/4)'
 
 
 func _player_connected(id):
@@ -226,8 +232,9 @@ remote func _announce_user(player):
 
 func _ready():
 	
+	Network.connect('clients_updated', self, '_on_clients_updated')
 	get_tree().connect('connected_to_server', self, '_connected_ok')
 	get_tree().connect('network_peer_disconnected', self, '_player_disconnected')
 	$FeedTimer.connect('timeout', self, '_on_feed_timer')
 	
-	_change_ui('Default')
+	#_change_ui('Default')

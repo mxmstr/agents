@@ -35,10 +35,6 @@ func _ready():
 		
 		_randomize_colors()
 		_spawn_player()
-		emit_signal('error', 'Waiting for players...')
-	
-	else:
-		emit_signal('error', 'Waiting for server...')
 
 
 func _adjust_to_virtual_keyboard():
@@ -108,6 +104,8 @@ func _connected_to_server():
 
 
 func _on_player_disconnected(id):
+	
+	player_count -= 1
 	
 	$World.get_node(str(id)).queue_free()
 

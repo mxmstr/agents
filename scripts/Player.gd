@@ -57,7 +57,7 @@ func init(is_slave, _nickname, start_position=Vector2(), _colors=null, _role=nul
 	$HUD/Nickname.text = _nickname
 	global_position = start_position
 	
-	$Action.emit_signal('change_ui', 'Default')
+	#$Action.emit_signal('change_ui', 'Default')
 	
 	
 	if is_network_master():

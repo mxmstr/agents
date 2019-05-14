@@ -15,10 +15,16 @@ var hosts = { }
 var players = { }
 var local_player_id = 1
 
+signal clients_updated
 signal server_info_posted
 signal host_list_requested
 signal player_disconnected
 signal server_disconnected
+
+
+func _server_is_full():
+	
+	return clients == MAX_CLIENTS + 1
 
 
 func _ready():
@@ -180,18 +186,20 @@ func _connected_to_server():
 func _on_player_disconnected(id):
 	
 	players.erase(id)
+	clients -= 1
+	emit_signal('clients_updated', clients)
 	
 	if get_tree().is_network_server():
-		clients -= 1
 		_post_game_info()
 
 
 func _on_player_connected(connected_player_id):
 	
 	local_player_id = get_tree().get_network_unique_id()
+	clients += 1
+	emit_signal('clients_updated', clients)
 	
 	if get_tree().is_network_server():
-		clients += 1
 		_post_game_info()
 	else:
 		rpc_id(1, '_request_player_info', local_player_id, connected_player_id)
