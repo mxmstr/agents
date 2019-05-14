@@ -164,8 +164,8 @@ func _on_clients_updated(clients):
 
 remote func _player_connected(id):
 	
-	#if id != get_tree().get_network_unique_id():
-	_display_message($'/root/Game/World'.get_node(str(id)).nickname + ' has joined')
+	if id != get_tree().get_network_unique_id():
+		_display_message($'/root/Game/World'.get_node(str(id)).nickname + ' has joined')
 
 
 func _player_disconnected(id):
