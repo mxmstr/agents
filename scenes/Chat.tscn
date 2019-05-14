@@ -1,16 +1,17 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://scripts/Chat.gd" type="Script" id=1]
 [ext_resource path="res://fonts/message_background.tres" type="StyleBox" id=2]
 [ext_resource path="res://fonts/veteran_typewriter.ttf" type="DynamicFontData" id=3]
-[ext_resource path="res://images/ui/paper.png" type="Texture" id=4]
-[ext_resource path="res://images/ui/exit.png" type="Texture" id=5]
-[ext_resource path="res://images/ui/chat2.png" type="Texture" id=6]
-[ext_resource path="res://images/ui/cancel2.png" type="Texture" id=7]
-[ext_resource path="res://images/ui/shoot2.png" type="Texture" id=8]
-[ext_resource path="res://images/ui/sleep2.png" type="Texture" id=9]
-[ext_resource path="res://images/ui/search2.png" type="Texture" id=10]
-[ext_resource path="res://images/ui/intel2.png" type="Texture" id=11]
+[ext_resource path="res://scripts/SkipWait.gd" type="Script" id=4]
+[ext_resource path="res://images/ui/paper.png" type="Texture" id=5]
+[ext_resource path="res://images/ui/exit.png" type="Texture" id=6]
+[ext_resource path="res://images/ui/chat2.png" type="Texture" id=7]
+[ext_resource path="res://images/ui/cancel2.png" type="Texture" id=8]
+[ext_resource path="res://images/ui/shoot2.png" type="Texture" id=9]
+[ext_resource path="res://images/ui/sleep2.png" type="Texture" id=10]
+[ext_resource path="res://images/ui/search2.png" type="Texture" id=11]
+[ext_resource path="res://images/ui/intel2.png" type="Texture" id=12]
 
 [sub_resource type="DynamicFont" id=1]
 
@@ -98,7 +99,7 @@ anti_aliasing = true
 anti_aliasing_size = 1
 _sections_unfolded = [ "Border", "Border Width", "Corner Radius", "Expand Margin", "Shadow" ]
 
-[node name="Chat" type="Node"]
+[node name="Chat" type="Node" index="0"]
 
 script = ExtResource( 1 )
 
@@ -220,7 +221,15 @@ autowrap = true
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-_sections_unfolded = [ "custom_colors", "custom_constants", "custom_fonts", "custom_styles" ]
+script = ExtResource( 4 )
+_sections_unfolded = [ "Rect", "custom_colors", "custom_constants", "custom_fonts", "custom_styles" ]
+
+[node name="Timer" type="Timer" parent="Announcements/Error" index="0"]
+
+process_mode = 1
+wait_time = 3.0
+one_shot = true
+autostart = false
 
 [node name="VictoryGood" type="Label" parent="Announcements" index="2"]
 
@@ -314,7 +323,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 expand = true
 stretch_mode = 6
 _sections_unfolded = [ "Rect", "Size Flags", "Visibility" ]
@@ -402,7 +411,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 5 )
+texture_normal = ExtResource( 6 )
 expand = true
 _sections_unfolded = [ "Rect", "Size Flags", "Textures", "Visibility" ]
 
@@ -615,7 +624,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 6 )
+texture_normal = ExtResource( 7 )
 expand = true
 stretch_mode = 5
 _sections_unfolded = [ "Rect", "Size Flags", "Textures", "Visibility", "custom_constants" ]
@@ -641,7 +650,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 7 )
+texture_normal = ExtResource( 8 )
 expand = true
 stretch_mode = 5
 _sections_unfolded = [ "Size Flags", "Textures", "Visibility" ]
@@ -666,7 +675,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 8 )
+texture_normal = ExtResource( 9 )
 expand = true
 stretch_mode = 5
 _sections_unfolded = [ "Size Flags", "Textures" ]
@@ -691,7 +700,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 9 )
+texture_normal = ExtResource( 10 )
 expand = true
 stretch_mode = 5
 _sections_unfolded = [ "Grow Direction", "Rect", "Size Flags", "Textures" ]
@@ -716,7 +725,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 10 )
+texture_normal = ExtResource( 11 )
 expand = true
 stretch_mode = 5
 _sections_unfolded = [ "Size Flags", "Textures" ]
@@ -742,7 +751,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 7 )
+texture_normal = ExtResource( 8 )
 expand = true
 stretch_mode = 5
 _sections_unfolded = [ "Size Flags", "Textures" ]
@@ -767,7 +776,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 11 )
+texture_normal = ExtResource( 12 )
 expand = true
 stretch_mode = 5
 _sections_unfolded = [ "Size Flags", "Textures" ]
@@ -793,7 +802,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 7 )
+texture_normal = ExtResource( 8 )
 expand = true
 stretch_mode = 5
 _sections_unfolded = [ "Size Flags", "Textures" ]
@@ -829,6 +838,12 @@ process_mode = 1
 wait_time = 4.0
 one_shot = true
 autostart = false
+
+[connection signal="mouse_entered" from="Announcements/Error" to="Announcements/Error" method="_set_mouse_over" binds= [ true ]]
+
+[connection signal="mouse_exited" from="Announcements/Error" to="Announcements/Error" method="_set_mouse_over" binds= [ false ]]
+
+[connection signal="timeout" from="Announcements/Error/Timer" to="Announcements/Error" method="_on_timeout"]
 
 [connection signal="button_down" from="UIContainer/TopBar/Exit" to="UIContainer/TopBar/Exit" method="set_self_modulate" binds= [ Color( 0.6, 0.6, 0.6, 1 ) ]]
 
