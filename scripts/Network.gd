@@ -29,7 +29,7 @@ func _server_is_full():
 
 func _ready():
 	
-	print(IP.get_local_addresses())
+	#print(IP.get_local_addresses())
 	
 	
 	var addrs = IP.get_local_addresses()
@@ -47,15 +47,6 @@ func _ready():
 		if addr.begins_with('10.'):
 			ip = addr#addrs[addrs.find(addr) + 2]
 			break
-		
-#	var addrs = IP.get_local_addresses().duplicate()
-#	print(addrs)
-#	addrs.pop_front()
-#
-#	for addr in addrs:
-#		if len(addr.split('.')) == 4:
-#			ip = addr
-#			break
 	
 	var get_request = HTTPRequest.new()
 	get_request.name = 'HostListRequest'
@@ -146,6 +137,8 @@ func _on_host_list_requested(result, response_code, headers, body):
 
 func _create_server():
 	
+	clients = 1
+	
 	players[1] = { 'name': player_name }
 	
 	var peer = NetworkedMultiplayerENet.new()
@@ -160,6 +153,8 @@ func _create_server():
 
 
 func _connect_to_server():
+	
+	clients = 1
 	
 	get_tree().connect('connected_to_server', self, '_connected_to_server')
 	
@@ -194,6 +189,8 @@ func _on_player_disconnected(id):
 
 
 func _on_player_connected(connected_player_id):
+	
+	print('connected')
 	
 	local_player_id = get_tree().get_network_unique_id()
 	clients += 1

@@ -22,6 +22,17 @@ const UI_PRESETS = {
 			],
 		},
 	
+	'Connection' : {
+		'visible' : [
+			'UIContainer',
+			'TopBar',
+			'Objective',
+			'Exit',
+			'Announcements',
+			'Error'
+			],
+		},
+	
 	'WaitForStart' : {
 		'visible' : [
 			'UIContainer',
@@ -29,6 +40,10 @@ const UI_PRESETS = {
 			'Objective',
 			'Exit',
 			'Announcements',
+			'MarginContainer',
+			'ChatContainer',
+			'FeedContainer',
+			'Feed',
 			'Error'
 			],
 		},
@@ -149,12 +164,14 @@ func _on_clients_updated(clients):
 
 func _player_connected(id):
 	
-	_display_message(str(id) + ' has joined')
+	if id != get_tree().get_network_unique_id():
+		_display_message($'/root/Game/World'.get_node(str(id)).nickname + ' has joined')
 
 
 func _player_disconnected(id):
 	
-	_display_message(str(id) + ' has left')
+	if id != get_tree().get_network_unique_id():
+		_display_message($'/root/Game/World'.get_node(str(id)).nickname + ' has left')
 
 
 func _connected_ok():
@@ -234,7 +251,8 @@ func _ready():
 	
 	Network.connect('clients_updated', self, '_on_clients_updated')
 	get_tree().connect('connected_to_server', self, '_connected_ok')
-	get_tree().connect('network_peer_disconnected', self, '_player_disconnected')
+	#get_tree().connect('network_peer_connected', self, '_player_connected')
+	#get_tree().connect('network_peer_disconnected', self, '_player_disconnected')
 	$FeedTimer.connect('timeout', self, '_on_feed_timer')
 	
-	#_change_ui('Default')
+	_change_ui('Connection')

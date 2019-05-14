@@ -107,7 +107,10 @@ func _on_player_disconnected(id):
 	
 	player_count -= 1
 	
-	$World.get_node(str(id)).queue_free()
+	$UI/Chat._player_disconnected(id)
+	
+	if $World.get_node(str(id)) != null:
+		$World.get_node(str(id)).queue_free()
 
 
 func _on_server_disconnected():
@@ -121,7 +124,7 @@ func _spawn_player():
 	new_player.name = str(get_tree().get_network_unique_id())
 	new_player.set_network_master(get_tree().get_network_unique_id())
 	$World.add_child(new_player)
-	
+	$UI/Chat._player_connected(get_tree().get_network_unique_id())
 	
 	new_player.init(
 		false,

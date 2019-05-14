@@ -98,7 +98,7 @@ anti_aliasing = true
 anti_aliasing_size = 1
 _sections_unfolded = [ "Border", "Border Width", "Corner Radius", "Expand Margin", "Shadow" ]
 
-[node name="Chat" type="Node" index="0"]
+[node name="Chat" type="Node"]
 
 script = ExtResource( 1 )
 
