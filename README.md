@@ -2,21 +2,15 @@ iOS release: https://itunes.apple.com/us/app/spies/id1463069057?mt=8&ign-mpt=uo%
 
 Android release: https://play.google.com/store/apps/details?id=org.godotengine.agents
 
-Thank you for testing Agents!
+Spies! is a 4-player LAN experience.
 
-At this stage you must set up a session manually. This game requires exactly four players.
-Start by launching the application and pressing the Create button to start a server.
-Have three other players enter your public IP address into the address bar.
-When they click Join, they should appear on the map with you.
-When a game ends, you must click the Exit button to end the session and then repeat the previous steps to start another game.
-
-At the top of the game screen is your objective. 
-One of your peers - the Traitor - will be instructed to kill the other players.
-The game ends when the traitor is killed - or if the traitor succeeds in killing everyone.
+You'll be randomly tasked with either protecting your teammates or betraying them. Kill the "Traitor" before he kills you, and the good guys win!
 
 Q: How do you figure out who the Traitor is?
-A: Everyone has a piece of Intel describing the appearance of the Traitor.
-Piece your clues together to determine his identity.
+
+A: Everyone has a piece of Intel describing the appearance of the Traitor. Piece your clues together to determine his identity!
+
+You can quickly start playing by either hosting a game or locating a friend's game through the server browser.
 
 You have 5 abilities:
 
