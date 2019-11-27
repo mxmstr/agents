@@ -174,7 +174,7 @@ use_filter = true
 font_data = ExtResource( 3 )
 _sections_unfolded = [ "Font", "Settings" ]
 
-[node name="Menu" type="Control"]
+[node name="Menu" type="Control" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -418,8 +418,8 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 17.0
-margin_right = 209.0
+margin_left = 128.0
+margin_right = 320.0
 margin_bottom = 96.0
 rect_min_size = Vector2( 192, 96 )
 rect_pivot_offset = Vector2( 0, 0 )
@@ -444,6 +444,7 @@ _sections_unfolded = [ "Rect", "Size Flags", "Textures", "Visibility", "custom_c
 
 [node name="Join" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer/Buttons" index="1"]
 
+visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -478,8 +479,8 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 461.0
-margin_right = 653.0
+margin_left = 350.0
+margin_right = 542.0
 margin_bottom = 96.0
 rect_min_size = Vector2( 192, 96 )
 rect_pivot_offset = Vector2( 0, 0 )
@@ -583,6 +584,7 @@ _sections_unfolded = [ "Margin", "Placeholder", "Rect", "Size Flags", "custom_co
 
 [node name="Port" type="LineEdit" parent="MarginContainer/VBoxContainer/VBoxContainer/CreateInfo" index="2"]
 
+visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -695,29 +697,27 @@ _sections_unfolded = [ "Size Flags", "custom_colors", "custom_fonts", "custom_st
 
 [connection signal="text_changed" from="MarginContainer/VBoxContainer/VBoxContainer/Name/Name" to="." method="_on_Name_text_changed"]
 
-[connection signal="button_up" from="MarginContainer/VBoxContainer/VBoxContainer/Buttons/Create" to="MarginContainer/VBoxContainer/VBoxContainer/CreateInfo" method="set_visible" binds= [ true ]]
+[connection signal="button_up" from="MarginContainer/VBoxContainer/VBoxContainer/Buttons/Create" to="." method="_on_Create_button_down"]
 
-[connection signal="button_up" from="MarginContainer/VBoxContainer/VBoxContainer/Buttons/Create" to="MarginContainer/VBoxContainer/VBoxContainer/CreateInfo/Port" method="set_visible" binds= [ true ]]
+[connection signal="button_up" from="MarginContainer/VBoxContainer/VBoxContainer/Buttons/Create" to="MarginContainer/VBoxContainer/VBoxContainer/CreateInfo" method="set_visible" binds= [ true ]]
 
 [connection signal="button_up" from="MarginContainer/VBoxContainer/VBoxContainer/Buttons/Create" to="MarginContainer/VBoxContainer/VBoxContainer/CreateInfo/ServerName" method="set_visible" binds= [ true ]]
 
-[connection signal="button_up" from="MarginContainer/VBoxContainer/VBoxContainer/Buttons/Create" to="." method="_on_Create_button_down"]
+[connection signal="button_up" from="MarginContainer/VBoxContainer/VBoxContainer/Buttons/Create" to="MarginContainer/VBoxContainer/VBoxContainer/Confirm" method="set_visible" binds= [ true ]]
 
 [connection signal="button_up" from="MarginContainer/VBoxContainer/VBoxContainer/Buttons/Create" to="MarginContainer/VBoxContainer/VBoxContainer/CreateInfo/IP" method="set_visible" binds= [ false ]]
 
-[connection signal="button_up" from="MarginContainer/VBoxContainer/VBoxContainer/Buttons/Create" to="MarginContainer/VBoxContainer/VBoxContainer/Confirm" method="set_visible" binds= [ true ]]
+[connection signal="button_up" from="MarginContainer/VBoxContainer/VBoxContainer/Buttons/Join" to="." method="_on_Join_button_down"]
 
 [connection signal="button_up" from="MarginContainer/VBoxContainer/VBoxContainer/Buttons/Join" to="MarginContainer/VBoxContainer/VBoxContainer/CreateInfo" method="set_visible" binds= [ true ]]
 
-[connection signal="button_up" from="MarginContainer/VBoxContainer/VBoxContainer/Buttons/Join" to="MarginContainer/VBoxContainer/VBoxContainer/CreateInfo/Port" method="set_visible" binds= [ true ]]
-
 [connection signal="button_up" from="MarginContainer/VBoxContainer/VBoxContainer/Buttons/Join" to="MarginContainer/VBoxContainer/VBoxContainer/CreateInfo/ServerName" method="set_visible" binds= [ false ]]
 
-[connection signal="button_up" from="MarginContainer/VBoxContainer/VBoxContainer/Buttons/Join" to="." method="_on_Join_button_down"]
-
-[connection signal="button_up" from="MarginContainer/VBoxContainer/VBoxContainer/Buttons/Join" to="MarginContainer/VBoxContainer/VBoxContainer/CreateInfo/IP" method="set_visible" binds= [ true ]]
+[connection signal="button_up" from="MarginContainer/VBoxContainer/VBoxContainer/Buttons/Join" to="MarginContainer/VBoxContainer/VBoxContainer/CreateInfo/Port" method="set_visible" binds= [ true ]]
 
 [connection signal="button_up" from="MarginContainer/VBoxContainer/VBoxContainer/Buttons/Join" to="MarginContainer/VBoxContainer/VBoxContainer/Confirm" method="set_visible" binds= [ true ]]
+
+[connection signal="button_up" from="MarginContainer/VBoxContainer/VBoxContainer/Buttons/Join" to="MarginContainer/VBoxContainer/VBoxContainer/CreateInfo/IP" method="set_visible" binds= [ true ]]
 
 [connection signal="button_up" from="MarginContainer/VBoxContainer/VBoxContainer/Buttons/Browse" to="." method="_on_Browse_button_down"]
 

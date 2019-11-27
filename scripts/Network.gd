@@ -8,7 +8,7 @@ const MAX_CLIENTS = 3
 var player_name = 'Agent'
 var server_name = null
 var ip = null
-var port = null
+var port = 5000
 var clients = 1
 
 var hosts = { }
@@ -29,24 +29,28 @@ func _server_is_full():
 
 func _ready():
 	
-	#print(IP.get_local_addresses())
+	print(IP.get_local_addresses())
 	
 	
 	var addrs = IP.get_local_addresses()
-
-	for addr in addrs:
+	ip = addrs
+	
+#	for addr in addrs.invert():
+##		if addr.begins_with('100.'):
+##			ip = addrs[addrs.find(addr) + 3]
+##			break
 #		if addr.begins_with('100.'):
-#			ip = addrs[addrs.find(addr) + 3]
+#			ip = addr#addrs[addrs.find(addr) + 2]
 #			break
-		if addr.begins_with('192.'):
-			ip = addr#addrs[addrs.find(addr) + 2]
-			break
-		if addr.begins_with('172.'):
-			ip = addr#addrs[addrs.find(addr) + 2]
-			break
-		if addr.begins_with('10.'):
-			ip = addr#addrs[addrs.find(addr) + 2]
-			break
+#		if addr.begins_with('192.'):
+#			ip = addr#addrs[addrs.find(addr) + 2]
+#			break
+#		if addr.begins_with('172.'):
+#			ip = addr#addrs[addrs.find(addr) + 2]
+#			break
+#		if addr.begins_with('10.'):
+#			ip = addr#addrs[addrs.find(addr) + 2]
+#			break
 	
 	var get_request = HTTPRequest.new()
 	get_request.name = 'HostListRequest'
@@ -80,7 +84,7 @@ func _post_game_info():
 	var headers = ["Content-Type: application/json"]
 	var query = JSON.print({
 		'action': 'update',
-		'ip': ip,
+		'ip': IP.get_local_addresses(),
 		'server_name': server_name,
 		'port': port,
 		'clients': clients
@@ -95,7 +99,7 @@ func _post_game_ended():
 	var headers = ["Content-Type: application/json"]
 	var query = JSON.print({
 		'action': 'delete',
-		'ip': ip,
+		'ip': IP.get_local_addresses(),
 		'server_name': server_name,
 		'port': port,
 		'clients': clients

@@ -109,13 +109,13 @@ func _save_config():
 #	config.set_value('Network', 'servername', _server_name)
 #	config.set_value('Network', 'port', _port)
 #	config.set_value('Network', 'ip', _ip)
-	config.save('res://settings.cfg')
+	config.save('user://settings.cfg')
 
 
 func _load_config():
 	
 	var config = ConfigFile.new()
-	var error = config.load('res://settings.cfg')
+	var error = config.load('user://settings.cfg')
 	
 	if error == OK:
 		Network.player_name = config.get_value('Network', 'nickname', Network.player_name)
